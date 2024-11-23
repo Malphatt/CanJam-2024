@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     private GameObject _mirroredPlayer;
     [SerializeField]
     private GameObject _weapons;
+    [SerializeField]
+    private Transform _muzzlePoint;
+
+    private Vector3 _tempMuzzleStart = Vector3.zero;
+    private Vector3 _tempMuzzleEnd = Vector3.zero;
 
     [SerializeField]
     private GameObject _camera;
@@ -172,6 +177,8 @@ public class PlayerController : MonoBehaviour
             Color.blue
         );
 
+        Debug.DrawRay(_tempMuzzleStart, _tempMuzzleEnd - _tempMuzzleStart, Color.yellow);
+
         // Move the mirrored player
         _mirroredPlayer.transform.position = new Vector3(
             NormalPlayer.transform.position.x,
@@ -273,9 +280,20 @@ public class PlayerController : MonoBehaviour
                     || hit.collider.transform.parent.GetComponent<Enemy>()
                 )
                 {
+                    _tempMuzzleStart = new Vector3(
+                        NormalPlayer.transform.position.x,
+                        NormalPlayer.transform.position.y + 0.5f,
+                        NormalPlayer.transform.position.z
+                    );
+                    _tempMuzzleEnd = new Vector3(
+                        hit.point.x,
+                        hit.point.y,
+                        hit.point.z
+                    );
+
                     // Call the TakeDamage function on the Enemy component
-                    hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                    hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                    //hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                    //hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
                 }
             }
         }
