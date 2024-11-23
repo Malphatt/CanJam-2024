@@ -245,11 +245,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee496601bc643047bbfd806e95f440a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 11
-  gridHeight: 11
+  gridWidth: 21
+  gridHeight: 21
+  numberOfRooms: 20
+  StartRoom: {fileID: 0}
   Room1: {fileID: 4516346946380075561, guid: 66d304bcbdd184349ba0c9e27361ff77, type: 3}
   Room2: {fileID: 4516346946380075561, guid: 18216b4cfda2de0409f8b461375f9e06, type: 3}
   Room3: {fileID: 4516346946380075561, guid: 2231b216b87d78e48810379e3f9e918d, type: 3}
+  EndRoom: {fileID: 0}
 --- !u!4 &904325061
 Transform:
   m_ObjectHideFlags: 0
