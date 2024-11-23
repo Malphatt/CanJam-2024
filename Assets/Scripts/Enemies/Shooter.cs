@@ -9,7 +9,7 @@ public class Shooter : Enemy
     [SerializeField]
     private NavMeshAgent _navMeshAgent;
 
-    public Transform _player;
+    private Transform _player;
 
     [SerializeField]
     private LayerMask _whatIsGround, _whatIsPlayer;
@@ -36,7 +36,9 @@ public class Shooter : Enemy
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>().NormalPlayer.transform;
 
-        _navMeshAgent.speed = _enemyData.speed;
+        _navMeshAgent.speed = _enemyData.Speed;
+        _timeBetweenAttacks = _enemyData.AttackCooldown;
+        _attackRange = _enemyData.AttackRange;
     }
 
     private new void Update()
@@ -46,8 +48,6 @@ public class Shooter : Enemy
         // Check for sight and attack range
         _playerInSightRange = Physics.CheckSphere(_UpsideEnemy.transform.position, _sightRange, _whatIsPlayer);
         _playerInAttackRange = Physics.CheckSphere(_UpsideEnemy.transform.position, _attackRange, _whatIsPlayer);
-
-        Debug.Log(_playerInSightRange + ", " + _playerInAttackRange);
 
         if (!_playerInSightRange && !_playerInAttackRange) Patroling();
         if (_playerInSightRange && !_playerInAttackRange) ChasePlayer();
