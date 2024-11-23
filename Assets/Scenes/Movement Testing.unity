@@ -207,12 +207,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966264774}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1849080032}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1176576311
 GameObject:
@@ -409,7 +409,7 @@ Transform:
   m_GameObject: {fileID: 1280833221}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -1, z: -0.5116563}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -519,11 +519,10 @@ Transform:
   m_GameObject: {fileID: 1849080028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 1, z: -0.5116563}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 966264777}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1849080033
@@ -540,7 +539,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mirroredPlayer: {fileID: 1280833221}
   _camera: {fileID: 966264774}
-  _rb: {fileID: 0}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &1849080034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,7 +767,7 @@ GameObject:
   - component: {fileID: 2019241649}
   - component: {fileID: 2019241648}
   - component: {fileID: 2019241647}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -866,5 +867,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1176576313}
   - {fileID: 2019241650}
+  - {fileID: 966264777}
   - {fileID: 1849080032}
   - {fileID: 1280833226}
