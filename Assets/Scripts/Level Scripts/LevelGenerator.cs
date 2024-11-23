@@ -37,6 +37,8 @@ public class LevelGenerator : MonoBehaviour
     public GameObject Room3;
     public GameObject EndRoom;
 
+    public GameObject[] Rooms; 
+
     void Start()
     {
         GenerateLevel();
@@ -146,7 +148,7 @@ public class LevelGenerator : MonoBehaviour
             PcgPoints randomNeighbour = neighbours[Random.Range(0, neighbours.Count)];
 
             //create a room at the random neighbour's position
-            GameObject room = Instantiate(Room1, randomNeighbour.point, Quaternion.identity);
+            GameObject room = Instantiate(Rooms[Random.Range (0,Rooms.Length)], randomNeighbour.point, Quaternion.identity);
 
             //set the current point
             currentPoint = randomNeighbour;
