@@ -271,12 +271,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 21
   gridHeight: 21
-  numberOfRooms: 20
+  numberOfRooms: 5
   StartRoom: {fileID: 0}
-  Room1: {fileID: 4516346946380075561, guid: 66d304bcbdd184349ba0c9e27361ff77, type: 3}
-  Room2: {fileID: 4516346946380075561, guid: 18216b4cfda2de0409f8b461375f9e06, type: 3}
+  Room1: {fileID: 4516346946380075561, guid: 22514243cecd5234eae71f521bc7f7a9, type: 3}
+  Room2: {fileID: 4516346946380075561, guid: 46eaadaad3fc9ba4894ad12a13e0708d, type: 3}
   Room3: {fileID: 4516346946380075561, guid: 2231b216b87d78e48810379e3f9e918d, type: 3}
   EndRoom: {fileID: 0}
+  Rooms:
+  - {fileID: 4516346946380075561, guid: 22514243cecd5234eae71f521bc7f7a9, type: 3}
+  - {fileID: 4516346946380075561, guid: 46eaadaad3fc9ba4894ad12a13e0708d, type: 3}
+  - {fileID: 4516346946380075561, guid: a54276559a89a4e4981e41ea7671a2dc, type: 3}
 --- !u!4 &904325061
 Transform:
   m_ObjectHideFlags: 0
@@ -303,6 +307,7 @@ GameObject:
   - component: {fileID: 1074690490}
   - component: {fileID: 1074690489}
   - component: {fileID: 1074690488}
+  - component: {fileID: 1074690491}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -384,6 +389,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1074690491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074690487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
