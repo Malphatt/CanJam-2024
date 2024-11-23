@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     private string _controlScheme;
 
+    public GameObject NormalPlayer;
     [SerializeField]
     private GameObject _mirroredPlayer;
+    [SerializeField]
+    private GameObject _weapons;
 
     [SerializeField]
     private GameObject _camera;
@@ -21,20 +25,20 @@ public class PlayerController : MonoBehaviour
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
-    private float _mouseSensitivity = 0.05f;
-    private float _lookSensitivity = 5.0f;
+    private readonly float _mouseSensitivity = 0.05f;
+    private readonly float _lookSensitivity = 5.0f;
 
     // Motion
     private Rigidbody _rb;
     private Vector3 _velocity = Vector3.zero;
 
-    private float _gravity = -40.0f;
+    private readonly float _gravity = -40.0f;
 
-    private float _movementSmoothing = 0.05f;
+    private readonly float _movementSmoothing = 0.05f;
 
-    private float _walkSpeed = 10.0f;
-    private float _sprintSpeed = 20.0f;
-    private float _transitionAcceleration = 0.1f;
+    private readonly float _walkSpeed = 10.0f;
+    private readonly float _sprintSpeed = 20.0f;
+    private readonly float _transitionAcceleration = 0.1f;
     private float _targetVelocity = 0.0f;
 
     private Vector3 _moveDirection = Vector3.zero;
@@ -42,17 +46,17 @@ public class PlayerController : MonoBehaviour
     private bool _isSprinting = false;
 
     // Jump
-    private float _jumpForce = 25.0f;
+    private readonly float _jumpForce = 25.0f;
     private bool _jumpedThisFrame = false;
     private bool _isJumping = false;
 
     // Jump Buffer
     private float _timeSinceJump = 0.0f;
-    private float _jumpBufferTime = 0.2f;
+    private readonly float _jumpBufferTime = 0.2f;
     private bool _jumpBuffered = false;
     private bool _heldJump = false;
     private float _timeSinceJumpBuffered = 0.0f;
-    private float _jumpBufferCooldown = 0.4f;
+    private readonly float _jumpBufferCooldown = 0.4f;
 
     // Ground Check
     private bool _isGrounded = false;
@@ -64,75 +68,43 @@ public class PlayerController : MonoBehaviour
 
     // Weapons
     private bool _isFiring = false;
-    private float _fireRate = 0.1f;
+    private readonly float _fireRate = 0.1f;
     private float _timeSinceFired = 0.0f;
 
-    private float _rangedRange = 100.0f;
-    private float _meleeRange = 2.0f;
-    private float _meleeCooldown = 0.8f;
+    private readonly float _rangedRange = 100.0f;
+    private readonly float _meleeRange = 2.0f;
+    private readonly float _meleeCooldown = 0.8f;
     private float _timeSinceMelee = 0.0f;
 
     [SerializeField]
     private LayerMask _enemyLayer;
 
+    // Scripted Animation
+    private bool _isSwitching = false;
+    [SerializeField]
+    private Image _BlackScreen;
+
     void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = NormalPlayer.GetComponent<Rigidbody>();
 
         _targetVelocity = _walkSpeed;
 
-        rotationX = transform.rotation.eulerAngles.y;
+        rotationX = NormalPlayer.transform.rotation.eulerAngles.y;
         rotationY = _camera.transform.rotation.eulerAngles.x;
 
         // Lock the cursor to the center of the screen
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Set the black screen to be transparent
+        _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
 
     void FixedUpdate()
     {
         // Move
         Move();
-
-        // Jump
-        if (_jumpedThisFrame)
-            _jumpedThisFrame = false;
-
-        bool wasGrounded = _isGrounded;
-        _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, _groundLayer);
-
-        // Sprint
-        if (_isSprinting && _moveDirection.z > 0.5f)
-            _targetVelocity = _sprintSpeed;
-
-        // Weapons
-        UseWeapon();
-
-        // If using a controller, rotate the player based on the right stick input
-        if (_controlScheme == "Controller")
-        {
-            rotationX += _lookInput.x * _lookSensitivity;
-            rotationY += _lookInput.y * _lookSensitivity;
-            rotationY = Mathf.Clamp(rotationY, -90.0f, 90.0f);
-
-            // Rotate the player based on the right stick input
-            transform.rotation = Quaternion.Euler(0f, rotationX, 0f);
-            // Rotate the camera based on the right stick input
-            _camera.transform.localRotation = Quaternion.Euler(-rotationY, 0f, 0f);
-        }
-    }
-
-    void Update()
-    {
-        // Draw Melee & Ranged Ray
-        Debug.DrawRay(transform.position, transform.forward * _meleeRange, Color.red);
-
-        Debug.DrawRay(
-            new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
-            new Vector3(transform.forward.x, _camera.transform.forward.y, transform.forward.z)
-                * _rangedRange,
-            Color.blue
-        );
 
         // If the jump key stops being held and the player is currently moving upwards, stop the jump
         if (_heldJump && _rb.velocity.y > 0)
@@ -154,6 +126,10 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
+        // Jump
+        if (_jumpedThisFrame)
+            _jumpedThisFrame = false;
+
         // If the player has not jumped within the buffer time, reset the buffer
         if (Time.time - _timeSinceJump > _jumpBufferTime)
             _jumpBuffered = false;
@@ -161,31 +137,67 @@ public class PlayerController : MonoBehaviour
         // Apply Gravity
         _rb.AddForce(Vector3.up * _gravity, ForceMode.Acceleration);
 
+        _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.1f, _groundLayer);
+
+        // Sprint
+        if (_isSprinting && _moveDirection.z > 0.5f)
+            _targetVelocity = _sprintSpeed;
+
+        // Weapons
+        UseWeapon();
+
+        // If using a controller, rotate the player based on the right stick input
+        if (_controlScheme == "Controller")
+        {
+            rotationX += _lookInput.x * _lookSensitivity;
+            rotationY += _lookInput.y * _lookSensitivity;
+            rotationY = Mathf.Clamp(rotationY, -90.0f, 90.0f);
+
+            // Rotate the player based on the right stick input
+            NormalPlayer.transform.rotation = Quaternion.Euler(0f, rotationX, 0f);
+            // Rotate the camera based on the right stick input
+            _camera.transform.localRotation = Quaternion.Euler(-rotationY, 0f, 0f);
+        }
+    }
+
+    void Update()
+    {
+        // Draw Melee & Ranged Ray
+        Debug.DrawRay(NormalPlayer.transform.position, NormalPlayer.transform.forward * _meleeRange, Color.red);
+
+        Debug.DrawRay(
+            new Vector3(NormalPlayer.transform.position.x, NormalPlayer.transform.position.y + 0.5f, NormalPlayer.transform.position.z),
+            new Vector3(NormalPlayer.transform.forward.x, _switchState * _camera.transform.forward.y, NormalPlayer.transform.forward.z)
+                * _rangedRange,
+            Color.blue
+        );
+
         // Move the mirrored player
         _mirroredPlayer.transform.position = new Vector3(
-            transform.position.x,
-            -transform.position.y,
-            transform.position.z
+            NormalPlayer.transform.position.x,
+            -NormalPlayer.transform.position.y,
+            NormalPlayer.transform.position.z
         );
 
         // Rotate the mirrored player
         _mirroredPlayer.transform.rotation = Quaternion.Euler(
-            transform.rotation.eulerAngles.x,
-            transform.rotation.eulerAngles.y,
-            transform.rotation.eulerAngles.z + 180.0f
+            NormalPlayer.transform.rotation.eulerAngles.x,
+            NormalPlayer.transform.rotation.eulerAngles.y,
+            NormalPlayer.transform.rotation.eulerAngles.z + 180.0f
         );
 
         // Move the camera
-        _camera.transform.position = new Vector3(
-            transform.position.x,
-            _switchState * (transform.position.y + 0.5f),
-            transform.position.z
-        );
+        if (!_isSwitching)
+            _camera.transform.position = new Vector3(
+                NormalPlayer.transform.position.x,
+                _switchState * (NormalPlayer.transform.position.y + 0.5f),
+                NormalPlayer.transform.position.z
+            );
 
         // Rotate the camera's y-axis based on the player's y-axis
         _camera.transform.rotation = Quaternion.Euler(
             _camera.transform.rotation.eulerAngles.x,
-            transform.rotation.eulerAngles.y,
+            NormalPlayer.transform.rotation.eulerAngles.y,
             _camera.transform.rotation.eulerAngles.z
         );
     }
@@ -204,8 +216,8 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded && _jumpedThisFrame && !_jumpBuffered)
             Jump();
 
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
+        Vector3 forward = NormalPlayer.transform.TransformDirection(Vector3.forward);
+        Vector3 right = NormalPlayer.transform.TransformDirection(Vector3.right);
         Vector3 _newMoveDirection = forward * _moveDirection.z + right * _moveDirection.x;
 
         // Move the player
@@ -244,11 +256,11 @@ public class PlayerController : MonoBehaviour
             // Make a raycast from the camera's position to the camera's forward direction
             Ray ray = new Ray(
                 new Vector3(
-                    transform.position.x,
-                    transform.position.y + 0.5f,
-                    transform.position.z
+                    NormalPlayer.transform.position.x,
+                    NormalPlayer.transform.position.y + 0.5f,
+                    NormalPlayer.transform.position.z
                 ),
-                new Vector3(transform.forward.x, _camera.transform.forward.y, transform.forward.z)
+                new Vector3(NormalPlayer.transform.forward.x, _camera.transform.forward.y, NormalPlayer.transform.forward.z)
             );
             RaycastHit hit;
 
@@ -270,7 +282,7 @@ public class PlayerController : MonoBehaviour
         else if (weapon == "Melee")
         {
             // Make a raycast from the player's position to the player's forward direction
-            Ray ray = new Ray(transform.position, transform.forward);
+            Ray ray = new Ray(NormalPlayer.transform.position, NormalPlayer.transform.forward);
             RaycastHit hit;
 
             // If the raycast hits something
@@ -299,6 +311,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (_isSwitching) return;
+
         if (context.phase == InputActionPhase.Started)
             _jumpedThisFrame = true;
 
@@ -318,7 +332,7 @@ public class PlayerController : MonoBehaviour
             rotationY = Mathf.Clamp(rotationY, -90.0f, 90.0f);
 
             // Rotate the player based on the mouse input
-            transform.rotation = Quaternion.Euler(0f, rotationX, 0f);
+            NormalPlayer.transform.rotation = Quaternion.Euler(0f, rotationX, 0f);
             // Rotate the camera based on the mouse input
             _camera.transform.localRotation = Quaternion.Euler(-rotationY, 0f, 0f);
         }
@@ -346,8 +360,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwitch(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
-            _switchState *= -1;
+        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
+            StartCoroutine(StartSwitchAnimation());
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -357,4 +371,91 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnControlsChanged(PlayerInput input) => _controlScheme = input.currentControlScheme;
+
+    IEnumerator StartSwitchAnimation()
+    {
+        _isSwitching = true;
+
+        // Shift the camera's y-axis gradually to the ground (NormalPlayer's position.y - 0.5f)
+        while (_switchState == 1 ? _camera.transform.position.y > NormalPlayer.transform.position.y - 0.5f : _camera.transform.position.y < -NormalPlayer.transform.position.y + 0.5f)
+        {
+            _camera.transform.position = new Vector3(
+                NormalPlayer.transform.position.x,
+                _camera.transform.position.y - (0.075f * _switchState),
+                NormalPlayer.transform.position.z
+            );
+
+            // also squash the _weapons
+            _weapons.transform.localScale = new Vector3(
+                _weapons.transform.localScale.x,
+                _weapons.transform.localScale.y - (0.075f * _switchState),
+                _weapons.transform.localScale.z
+            );
+
+            _BlackScreen.color = new Color(
+                0.0f,
+                0.0f,
+                0.0f,
+                1.0f - (Mathf.Abs(_weapons.transform.localScale.y) + 0.1f)
+            );
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        // Teleport the camera to the ground (-NormalPlayer's position.y + 0.5f)
+        _camera.transform.position = new Vector3(
+            NormalPlayer.transform.position.x,
+            _switchState * (-NormalPlayer.transform.position.y + 0.5f),
+            NormalPlayer.transform.position.z
+        );
+        _weapons.transform.localScale = new Vector3(
+            _weapons.transform.localScale.x,
+            0.0f,
+            _weapons.transform.localScale.z
+        );
+
+        _BlackScreen.color = new Color(
+            0.0f,
+            0.0f,
+            0.0f,
+            1.0f - Mathf.Abs(_weapons.transform.localScale.y)
+        );
+
+        // Animate the camera coming back up also
+        while (_switchState == 1 ? _camera.transform.position.y > -NormalPlayer.transform.position.y - 0.5f : _camera.transform.position.y < NormalPlayer.transform.position.y + 0.5f)
+        {
+            _camera.transform.position = new Vector3(
+                NormalPlayer.transform.position.x,
+                _camera.transform.position.y - (0.025f * _switchState),
+                NormalPlayer.transform.position.z
+            );
+
+            _weapons.transform.localScale = new Vector3(
+                _weapons.transform.localScale.x,
+                _weapons.transform.localScale.y - (0.025f * _switchState),
+                _weapons.transform.localScale.z
+            );
+
+            _BlackScreen.color = new Color(
+                0.0f,
+                0.0f,
+                0.0f,
+                1.0f - (Mathf.Abs(_weapons.transform.localScale.y) + 0.1f)
+            );
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        // Switch the player's state
+        _switchState *= -1;
+        _isSwitching = false;
+
+        _weapons.transform.localScale = new Vector3(
+            _weapons.transform.localScale.x,
+            1.0f * _switchState,
+            _weapons.transform.localScale.z
+        );
+
+        _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+    }
 }

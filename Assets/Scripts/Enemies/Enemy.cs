@@ -8,36 +8,34 @@ public class Enemy : MonoBehaviour
     protected EnemyData _enemyData;
 
     [SerializeField]
-    private GameObject _UpsideEnemy;
+    protected GameObject _UpsideEnemy;
 
     [SerializeField]
-    private GameObject _DownsideEnemy;
+    protected GameObject _DownsideEnemy;
 
     private float _remainingHealth;
 
-    private Rigidbody _rb;
+    protected Rigidbody _rb;
 
     private void Awake()
     {
-        _remainingHealth = _enemyData.health;
+        _remainingHealth = _enemyData.Health;
 
         _rb = _UpsideEnemy.GetComponent<Rigidbody>();
     }
 
-    void Update()
+    protected void Update()
     {
         // Move and rotate the DownsideEnemy
-        _DownsideEnemy.transform.position = new Vector3(
+        _DownsideEnemy.transform.SetPositionAndRotation(new Vector3(
             _UpsideEnemy.transform.position.x,
             -_UpsideEnemy.transform.position.y,
             _UpsideEnemy.transform.position.z
-        );
-
-        _DownsideEnemy.transform.rotation = Quaternion.Euler(
+        ), Quaternion.Euler(
             _UpsideEnemy.transform.rotation.eulerAngles.x,
             _UpsideEnemy.transform.rotation.eulerAngles.y,
             _UpsideEnemy.transform.rotation.eulerAngles.z + 180.0f
-        );
+        ));
     }
 
     public float TakeDamage(float damage)
@@ -47,6 +45,6 @@ public class Enemy : MonoBehaviour
         if (_remainingHealth <= 0.0f)
             Destroy(gameObject);
 
-        return Mathf.Clamp(_remainingHealth, 0.0f, _enemyData.health);
+        return Mathf.Clamp(_remainingHealth, 0.0f, _enemyData.Health);
     }
 }
