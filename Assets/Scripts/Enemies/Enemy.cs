@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _remainingHealth = _enemyData.health;
+        _remainingHealth = _enemyData.Health;
 
         _rb = _UpsideEnemy.GetComponent<Rigidbody>();
     }
@@ -45,6 +45,6 @@ public class Enemy : MonoBehaviour
         if (_remainingHealth <= 0.0f)
             Destroy(gameObject);
 
-        return Mathf.Clamp(_remainingHealth, 0.0f, _enemyData.health);
+        return Mathf.Clamp(_remainingHealth, 0.0f, _enemyData.Health);
     }
 }
