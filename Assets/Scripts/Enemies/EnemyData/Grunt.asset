@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c56a316113a5d24fa8ab2c9273d2845, type: 3}
   m_Name: Grunt
   m_EditorClassIdentifier: 
-  health: 100
+  Health: 100
+  Speed: 5
+  AttackCooldown: 0.5
+  AttackRange: 1
