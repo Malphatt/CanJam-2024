@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
         // Rotate the camera's y-axis based on the player's y-axis
         _camera.transform.rotation = Quaternion.Euler(
-            _switchState * _camera.transform.rotation.eulerAngles.x,
+            _camera.transform.rotation.eulerAngles.x,
             transform.rotation.eulerAngles.y,
             _camera.transform.rotation.eulerAngles.z
         );
