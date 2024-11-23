@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -80,6 +81,8 @@ public class PlayerController : MonoBehaviour
 
     // Scripted Animation
     private bool _isSwitching = false;
+    [SerializeField]
+    private Image _BlackScreen;
 
     void Awake()
     {
@@ -93,6 +96,9 @@ public class PlayerController : MonoBehaviour
         // Lock the cursor to the center of the screen
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // Set the black screen to be transparent
+        _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
 
     void FixedUpdate()
@@ -386,6 +392,13 @@ public class PlayerController : MonoBehaviour
                 _weapons.transform.localScale.z
             );
 
+            _BlackScreen.color = new Color(
+                0.0f,
+                0.0f,
+                0.0f,
+                1.0f - (Mathf.Abs(_weapons.transform.localScale.y) + 0.1f)
+            );
+
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -399,6 +412,13 @@ public class PlayerController : MonoBehaviour
             _weapons.transform.localScale.x,
             0.0f,
             _weapons.transform.localScale.z
+        );
+
+        _BlackScreen.color = new Color(
+            0.0f,
+            0.0f,
+            0.0f,
+            1.0f - Mathf.Abs(_weapons.transform.localScale.y)
         );
 
         // Animate the camera coming back up also
@@ -416,6 +436,13 @@ public class PlayerController : MonoBehaviour
                 _weapons.transform.localScale.z
             );
 
+            _BlackScreen.color = new Color(
+                0.0f,
+                0.0f,
+                0.0f,
+                1.0f - (Mathf.Abs(_weapons.transform.localScale.y) + 0.1f)
+            );
+
             yield return new WaitForSeconds(0.01f);
         }
 
@@ -428,5 +455,7 @@ public class PlayerController : MonoBehaviour
             1.0f * _switchState,
             _weapons.transform.localScale.z
         );
+
+        _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
 }
