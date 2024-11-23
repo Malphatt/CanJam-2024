@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Shooter
   m_EditorClassIdentifier: 
   health: 100
+  speed: 11
