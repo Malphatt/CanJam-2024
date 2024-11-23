@@ -65,7 +65,7 @@ public class LevelGenerator : MonoBehaviour
             for (int y = 0; y < gridHeight; y++)
             {
                 // Create a data point for each grid position, with each point 10 units apart.
-                Vector3 point = new Vector3(x * 100, 0, y * 100);
+                Vector3 point = new Vector3(x * 100 - (gridWidth/2) * 100, 0, y * 100 - (gridHeight/2) * 100);
 
                 // Initialize the PCG point.
                 PcgPoints newPoint = new PcgPoints(point, x, y);
