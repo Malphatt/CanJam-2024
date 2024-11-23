@@ -281,9 +281,9 @@ public class PlayerController : MonoBehaviour
                 )
                 {
                     _tempMuzzleStart = new Vector3(
-                        NormalPlayer.transform.position.x,
-                        NormalPlayer.transform.position.y + 0.5f,
-                        NormalPlayer.transform.position.z
+                        _muzzlePoint.transform.position.x,
+                        _muzzlePoint.transform.position.y,
+                        _muzzlePoint.transform.position.z
                     );
                     _tempMuzzleEnd = new Vector3(
                         hit.point.x,
