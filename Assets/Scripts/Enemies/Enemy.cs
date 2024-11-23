@@ -8,14 +8,14 @@ public class Enemy : MonoBehaviour
     protected EnemyData _enemyData;
 
     [SerializeField]
-    private GameObject _UpsideEnemy;
+    protected GameObject _UpsideEnemy;
 
     [SerializeField]
-    private GameObject _DownsideEnemy;
+    protected GameObject _DownsideEnemy;
 
     private float _remainingHealth;
 
-    private Rigidbody _rb;
+    protected Rigidbody _rb;
 
     private void Awake()
     {
