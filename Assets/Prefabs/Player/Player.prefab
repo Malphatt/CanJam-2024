@@ -356,7 +356,7 @@ MonoBehaviour:
   m_DefaultControlScheme: Keyboard & Mouse
   m_DefaultActionMap: PlayerMap
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1720933204428040445, guid: 357ad697eb6a1f2459486a735f63fd0a, type: 3}
 --- !u!114 &3251668163327252166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalPlayer: {fileID: 1372278070148686075}
   _mirroredPlayer: {fileID: 8213666976720570995}
-  _playerCamera: {fileID: 0}
+  _playerCamera: {fileID: 1940209803703360246, guid: 357ad697eb6a1f2459486a735f63fd0a, type: 3}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
