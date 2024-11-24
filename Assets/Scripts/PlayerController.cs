@@ -477,7 +477,7 @@ public class PlayerController : MonoBehaviour
             // also squash the _weapons
             _weapons.transform.localScale = new Vector3(
                 _weapons.transform.localScale.x,
-                _weapons.transform.localScale.y - (0.075f * _switchState),
+                1.0f * _switchState - offset,
                 _weapons.transform.localScale.z
             );
 
@@ -525,7 +525,7 @@ public class PlayerController : MonoBehaviour
 
             _weapons.transform.localScale = new Vector3(
                 _weapons.transform.localScale.x,
-                _weapons.transform.localScale.y - (0.025f * _switchState),
+                1.0f * _switchState - offset,
                 _weapons.transform.localScale.z
             );
 
