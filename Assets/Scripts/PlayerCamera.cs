@@ -10,4 +10,7 @@ public class PlayerCamera : MonoBehaviour
 
     public Animator Gun;
     public Animator JamJar;
+
+    public AudioController AudioControl;
+    public BackgroundMusic BgMusic;
 }
