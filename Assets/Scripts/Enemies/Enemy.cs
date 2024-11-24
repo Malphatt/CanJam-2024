@@ -13,13 +13,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     protected GameObject _DownsideEnemy;
 
-    private float _remainingHealth;
+    public float CurrentHealth;
 
     protected Rigidbody _rb;
 
     private void Awake()
     {
-        _remainingHealth = _enemyData.Health;
+        CurrentHealth = _enemyData.Health;
 
         _rb = _UpsideEnemy.GetComponent<Rigidbody>();
     }
@@ -40,11 +40,11 @@ public class Enemy : MonoBehaviour
 
     public float TakeDamage(float damage)
     {
-        _remainingHealth -= damage;
+        CurrentHealth -= damage;
 
-        if (_remainingHealth <= 0.0f)
+        if (CurrentHealth <= 0.0f)
             Destroy(gameObject);
 
-        return Mathf.Clamp(_remainingHealth, 0.0f, _enemyData.Health);
+        return Mathf.Clamp(CurrentHealth, 0.0f, _enemyData.Health);
     }
 }
