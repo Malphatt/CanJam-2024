@@ -349,7 +349,7 @@ public class PlayerController : MonoBehaviour
             Ray ray = new Ray(NormalPlayer.transform.position, NormalPlayer.transform.forward);
             RaycastHit hit;
 
-            _animator2.SetBool("isMelee", true);
+            _animator2.SetTrigger("Melee");
             // If the raycast hits something
             if (Physics.Raycast(ray, out hit, _meleeRange, _enemyLayer))
             {
