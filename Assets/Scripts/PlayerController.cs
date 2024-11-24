@@ -365,12 +365,14 @@ public class PlayerController : MonoBehaviour
                     || hit.collider.transform.parent.GetComponent<Enemy>()
                 )
                 {
-                    float enemyHealthRemaining;
+                    float enemyHealthRemaining = -1;
 
 
                     // Call the TakeDamage function on the Enemy component
-                    enemyHealthRemaining = (float) hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                    enemyHealthRemaining = (float) hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                    if (hit.collider.GetComponent<Enemy>())
+                        enemyHealthRemaining = (float) hit.collider.GetComponent<Enemy>()?.TakeDamage(1.0f);
+                    else if (hit.collider.transform.parent.GetComponent<Enemy>())
+                        enemyHealthRemaining = (float) hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(1.0f);
 
                     if (enemyHealthRemaining <= 0.0f)
                     {
