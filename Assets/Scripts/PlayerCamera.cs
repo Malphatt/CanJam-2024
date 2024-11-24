@@ -13,4 +13,7 @@ public class PlayerCamera : MonoBehaviour
 
     public AudioController AudioControl;
     public BackgroundMusic BgMusic;
+
+    public HealthBar HealthBar;
+    public UltBar UltBar;
 }

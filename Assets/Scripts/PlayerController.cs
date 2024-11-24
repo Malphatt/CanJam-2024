@@ -104,8 +104,8 @@ public class PlayerController : MonoBehaviour
     private AudioController _audioController;
     private BackgroundMusic _backgroundMusic;
 
-    [SerializeField] private HealthBar _healthBar;
-    [SerializeField] private UltBar _ultBar;
+    private HealthBar _healthBar;
+    private UltBar _ultBar;
 
     //Trail
     [SerializeField]
@@ -122,6 +122,9 @@ public class PlayerController : MonoBehaviour
 
         _audioController = _playerCamera.AudioControl;
         _backgroundMusic = _playerCamera.BgMusic;
+
+        _healthBar = _playerCamera.HealthBar;
+        _ultBar = _playerCamera.UltBar;
 
         CurrentHealth = _maxHealth;
 
