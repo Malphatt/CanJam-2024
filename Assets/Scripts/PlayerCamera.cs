@@ -7,4 +7,7 @@ public class PlayerCamera : MonoBehaviour
     public GameObject Camera;
     public GameObject Weapons;
     public GameObject MuzzlePoint;
+
+    public Animator Gun;
+    public Animator JamJar;
 }

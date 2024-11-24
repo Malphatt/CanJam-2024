@@ -25,13 +25,19 @@ public class Shooter : Enemy
     [SerializeField]
     private float _timeBetweenAttacks;
     private bool _alreadyAttacked;
-    private float _bulletSpread = 1.0f;
+    private float _bulletSpread = 0.15f;
 
     // States
     [SerializeField]
     private float _sightRange, _attackRange;
     [SerializeField]
     private bool _playerInSightRange, _playerInAttackRange;
+
+    [SerializeField]
+    private Transform _muzzlePoint;
+
+    [SerializeField]
+    private GameObject _bulletPrefab;
 
     private void Awake()
     {
@@ -94,22 +100,22 @@ public class Shooter : Enemy
 
         if (!_alreadyAttacked)
         {
+
             // Attack code here
-            // Make a ray to shoot the bullet at the player (vary the direction a little bit to create a spread)
-            Vector3 shootDirection = (_player.position + (new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)) * _bulletSpread)).normalized;
+            float distance = Vector3.Distance(_player.position, _UpsideEnemy.transform.position);
+            Vector3 shootLocation = _player.position + new Vector3(
+                Random.Range(-_bulletSpread, _bulletSpread) * distance,
+                Random.Range(-_bulletSpread, _bulletSpread) * distance,
+                Random.Range(-_bulletSpread, _bulletSpread) * distance
+            );
 
-            // Raycast to check if the player is in sight
-            if (Physics.Raycast(_UpsideEnemy.transform.position, shootDirection, out RaycastHit hit, _attackRange))
-            {
-                if (hit.transform.CompareTag("Player"))
-                {
-                    // Deal damage to the player
-                    //hit.transform.GetComponent<PlayerController>().TakeDamage(5.0f);
-                }
-            }
+            Debug.Log(shootLocation);
 
+            Debug.DrawRay(_UpsideEnemy.transform.position, shootLocation - _UpsideEnemy.transform.position, Color.red, 1.0f);
+            Debug.DrawRay(_muzzlePoint.transform.position, shootLocation - _muzzlePoint.transform.position, Color.yellow, 1.0f);
 
-
+            Quaternion shootDirection = Quaternion.LookRotation(shootLocation - _muzzlePoint.position);
+            Instantiate(_bulletPrefab, _muzzlePoint.position, shootDirection);
 
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack), _timeBetweenAttacks);
