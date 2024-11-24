@@ -207,6 +207,7 @@ MonoBehaviour:
   _enemyData: {fileID: 11400000, guid: 7019e99d347e301449b51485bef0abf9, type: 2}
   _UpsideEnemy: {fileID: 2004268777148930612}
   _DownsideEnemy: {fileID: 7751460374495578236}
+  CurrentHealth: 0
   _navMeshAgent: {fileID: 1994357748262320366}
   _whatIsGround:
     serializedVersion: 2
@@ -221,6 +222,8 @@ MonoBehaviour:
   _attackRange: 15
   _playerInSightRange: 0
   _playerInAttackRange: 0
+  _muzzlePoint: {fileID: 0}
+  _bulletPrefab: {fileID: 0}
 --- !u!1 &7751460374495578236
 GameObject:
   m_ObjectHideFlags: 0

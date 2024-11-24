@@ -1,7 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -91,26 +93,28 @@ public class PlayerController : MonoBehaviour
     public float CurrentHealth;
     private float _maxHealth = 100.0f;
 
-    // Ultimate
-    public int UltimateCharge = 0;
-    private int MaxUltimateCharge = 10;
-
     // Animation
+    [SerializeField]
     private Animator _animator;
+
+
+    [SerializeField]
     private Animator _animator2;
     //Records mirror
     private bool _mirror = false;
 
     [SerializeField] private AudioController _audioController;
+    [SerializeField] private BackgroundMusic _backgroundMusic;
+    //Particle effects
+    //GameObject smoke;
+    //GameObject Light;
+
 
     void Awake()
     {
         _camera = _playerCamera.Camera;
         _weapons = _playerCamera.Weapons;
         _muzzlePoint = _playerCamera.MuzzlePoint.transform;
-
-        _animator = _playerCamera.Gun;
-        _animator2 = _playerCamera.JamJar;
 
         CurrentHealth = _maxHealth;
 
@@ -168,8 +172,13 @@ public class PlayerController : MonoBehaviour
         else
             _rb.velocity += Vector3.up * _gravity * Time.deltaTime;
 
-        _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.1f, _groundLayer);
+        bool wasGrounded = _isGrounded; 
+        _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.5f, _groundLayer);
 
+        if (!wasGrounded && _isGrounded)
+        {
+            _audioController.Landed();
+        }
         // Sprint
         if (_isSprinting && _moveDirection.z > 0.5f)
             _targetVelocity = _sprintSpeed;
@@ -241,8 +250,6 @@ public class PlayerController : MonoBehaviour
     public float TakeDamage(float damage)
     {
         CurrentHealth -= damage;
-
-        UpdateHealth();
 
         if (CurrentHealth <= 0.0f)
             Destroy(gameObject);
@@ -332,24 +339,18 @@ public class PlayerController : MonoBehaviour
                 _animator.SetBool("Firing", true);
 
                 // If the object hit has an Enemy component
-                if (
-                    hit.collider != null &&
-                    hit.collider.GetComponent<Enemy>()
-                    || hit.collider.transform.parent.GetComponent<Enemy>()
-                )
-                {
-                    // Call the TakeDamage function on the Enemy component
-                    float enemyHealthRemaining;
+                //if (
+                //    hit.collider != null &&
+                //    hit.collider.GetComponent<Enemy>()
+                //    || hit.collider.transform.parent.GetComponent<Enemy>()
+                //)
+                //{
+                //    // Call the TakeDamage function on the Enemy component
+                //    //hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                //    //hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                
 
-                    enemyHealthRemaining = (int)hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                    enemyHealthRemaining = (int)hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
-
-                    if (enemyHealthRemaining <= 0.0f)
-                    {
-                        UltimateCharge = Mathf.Clamp(UltimateCharge + 1, 0, MaxUltimateCharge);
-                        UpdateUltimate();
-                    }
-                }
+                //}
             }
         }
         else if (weapon == "Melee")
@@ -435,13 +436,8 @@ public class PlayerController : MonoBehaviour
     public void OnSwitch(InputAction.CallbackContext context)
     {
 
-        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded && UltimateCharge == MaxUltimateCharge)
+        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
             StartCoroutine(StartSwitchAnimation());
-        else if (context.phase == InputActionPhase.Started)
-        {
-            // Animate the bar to say they can't use the ULT
-
-        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -455,10 +451,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator StartSwitchAnimation()
     {
         _audioController.FlipToMirror();
-
+        _backgroundMusic.MainMusic();
         _animator.SetBool("Swap", _switchState == 1);
         _animator2.SetBool("Flipped", _switchState == 1);
-
         _isSwitching = true;
 
         float offset = 0.0f;
@@ -550,15 +545,5 @@ public class PlayerController : MonoBehaviour
         );
 
         _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-    }
-
-    private void UpdateUltimate()
-    {
-        // MARK: Update the ultimate bar
-    }
-
-    public void UpdateHealth()
-    {
-        // MARK: Update the health bar
     }
 }

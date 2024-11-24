@@ -26,6 +26,7 @@ public class LevelGenerator : MonoBehaviour
     private int gridHeight = 10;
 
     private PcgPoints currentPoint;
+    private int lastDirection;
 
     // Room Settings
     [Header("Room Settings")]
@@ -36,9 +37,6 @@ public class LevelGenerator : MonoBehaviour
     // Room prefabs.
     [Header("Room Prefabs")]
     public GameObject StartRoom;
-    public GameObject Room1;
-    public GameObject Room2;
-    public GameObject Room3;
     public GameObject EndRoom;
 
     public GameObject[] Rooms; 
@@ -58,7 +56,6 @@ public class LevelGenerator : MonoBehaviour
 
         CreateRooms();
     }
-
     void CreatePCGPoints()
     {
         // Initialize the points array.
@@ -86,7 +83,6 @@ public class LevelGenerator : MonoBehaviour
 
     void SetStartPoint()
     {
-
         // This can be removed later, it is just to visualize the points.
         for (int x = 0; x < gridWidth; x++)
         {
@@ -104,7 +100,7 @@ public class LevelGenerator : MonoBehaviour
         int centerPointY = gridHeight / 2;
 
         //create a room at the center point
-        pointsArray[centerPointX, centerPointY].room = Instantiate(Room2, pointsArray[centerPointX, centerPointY].point, Quaternion.identity);
+        pointsArray[centerPointX, centerPointY].room = Instantiate(StartRoom, pointsArray[centerPointX, centerPointY].point, Quaternion.identity);
 
         //set the current point to true
         currentPoint = pointsArray[centerPointX, centerPointY];
@@ -153,8 +149,15 @@ public class LevelGenerator : MonoBehaviour
         {
             List<PcgPoints> neighbours = GetNeighbours(currentPoint);
 
+            int randomDirection = Random.Range(0, neighbours.Count);
+
+            while (randomDirection == lastDirection)
+            {
+                randomDirection = Random.Range(0, neighbours.Count);
+            }
+
             //select a random neighbour from the available neighbours array
-            PcgPoints randomNeighbour = neighbours[Random.Range(0, neighbours.Count)];
+            PcgPoints randomNeighbour = neighbours[randomDirection];
 
             //create a room at the random neighbour's position
             pointsArray[randomNeighbour.X, randomNeighbour.Y].room = Instantiate(Rooms[Random.Range(0, Rooms.Length)], randomNeighbour.point, Quaternion.identity);
@@ -167,6 +170,10 @@ public class LevelGenerator : MonoBehaviour
 
             //set the current point
             currentPoint = randomNeighbour;
+            if ( i % 2 == 0)
+            {
+            lastDirection = randomDirection;
+            }
 
             //add the current room to the rooms path
             roomsPath.Add(pointsArray[currentPoint.X, currentPoint.Y]);
