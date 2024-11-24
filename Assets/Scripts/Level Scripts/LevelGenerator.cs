@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEditor;
+using UnityEditor.AI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class LevelGenerator : MonoBehaviour
 
     //create a private array for the available neighbours
     private PcgPoints[] availableNeighbours;
+
+    private List<PcgPoints> roomsPath;
 
     // PCG grid settings.
     [Header("Level Generation Settings")]
@@ -41,6 +45,8 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        roomsPath = new List<PcgPoints>();
+
         GenerateLevel();
     }
 
@@ -98,11 +104,14 @@ public class LevelGenerator : MonoBehaviour
         int centerPointY = gridHeight / 2;
 
         //create a room at the center point
-        GameObject room = Instantiate(Room1, pointsArray[centerPointX, centerPointY].point, Quaternion.identity);
+        pointsArray[centerPointX, centerPointY].room = Instantiate(Room2, pointsArray[centerPointX, centerPointY].point, Quaternion.identity);
 
         //set the current point to true
         currentPoint = pointsArray[centerPointX, centerPointY];
         pointsArray[centerPointX, centerPointY].isBlocked = true;
+
+        //add the center point to the rooms path
+        roomsPath.Add(pointsArray[centerPointX, centerPointY]);
 
     }
 
@@ -148,15 +157,66 @@ public class LevelGenerator : MonoBehaviour
             PcgPoints randomNeighbour = neighbours[Random.Range(0, neighbours.Count)];
 
             //create a room at the random neighbour's position
-            GameObject room = Instantiate(Rooms[Random.Range (0,Rooms.Length)], randomNeighbour.point, Quaternion.identity);
+            pointsArray[randomNeighbour.X, randomNeighbour.Y].room = Instantiate(Rooms[Random.Range(0, Rooms.Length)], randomNeighbour.point, Quaternion.identity);
+
+            //get the direction of the entrance door
+            int exitDoorDirection = GetExitDoorDirection(currentPoint, randomNeighbour);
+
+            pointsArray[currentPoint.X, currentPoint.Y].exitDoorDirection = exitDoorDirection;
+            pointsArray[randomNeighbour.X, randomNeighbour.Y].entranceDoorDirection = (exitDoorDirection + 2) % 4;
 
             //set the current point
             currentPoint = randomNeighbour;
+
+            //add the current room to the rooms path
+            roomsPath.Add(pointsArray[currentPoint.X, currentPoint.Y]);
 
             //set all of the available neighbours to blocked
             for (int j = 0; j < neighbours.Count; j++)
                 pointsArray[neighbours[j].X, neighbours[j].Y].isBlocked = true;
         }
+
+        for (int i = 0; i < roomsPath.Count; i++)
+        {
+            roomsPath[i].room.GetComponent<RoomManager>()?.RemoveDoors(
+                pointsArray[roomsPath[i].X, roomsPath[i].Y].exitDoorDirection,
+                pointsArray[roomsPath[i].X, roomsPath[i].Y].entranceDoorDirection
+            );
+        }
+
+        NavMeshBuilder.BuildNavMesh();
+    }
+
+    int GetExitDoorDirection(PcgPoints currentPoint, PcgPoints randomNeighbour)
+    {
+        int entranceDoorDirection = -1;
+
+        if (currentPoint.Y < randomNeighbour.Y)
+        {
+            entranceDoorDirection = (int)DoorDirections.Up;
+        }
+        else if (currentPoint.X < randomNeighbour.X)
+        {
+            entranceDoorDirection = (int)DoorDirections.Right;
+        }
+        else if (currentPoint.Y > randomNeighbour.Y)
+        {
+            entranceDoorDirection = (int)DoorDirections.Down;
+        }
+        else if (currentPoint.X > randomNeighbour.X)
+        {
+            entranceDoorDirection = (int)DoorDirections.Left;
+        }
+
+        return entranceDoorDirection;
+    }
+
+    private enum DoorDirections
+    {
+        Up,
+        Right,
+        Down,
+        Left
     }
 
     struct PcgPoints
@@ -165,6 +225,9 @@ public class LevelGenerator : MonoBehaviour
         public readonly int Y;
         public readonly Vector3 point;
         public bool isBlocked;
+        public int entranceDoorDirection;
+        public int exitDoorDirection;
+        public GameObject room;
 
         public PcgPoints(Vector3 _point, int _x, int _y)
         {
@@ -172,6 +235,9 @@ public class LevelGenerator : MonoBehaviour
             this.Y = _y;
             point = _point;
             isBlocked = false;
+            entranceDoorDirection = -1;
+            exitDoorDirection = -1;
+            room = null;
         }
     }
 }
