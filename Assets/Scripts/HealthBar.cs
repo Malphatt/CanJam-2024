@@ -10,12 +10,12 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
 
 
-    public void SetHealth(int Health)
+    public void SetHealth(float Health)
     {
         slider.value = Health;
     }
 
-    public void setMaxHealth(int Health)
+    public void setMaxHealth(float Health)
     {
         slider.maxValue = Health;
         slider.value = Health;
