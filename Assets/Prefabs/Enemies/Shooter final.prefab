@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4504067336430647270}
   - component: {fileID: 4320055257315748871}
   - component: {fileID: 2099875947831609865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Downside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
