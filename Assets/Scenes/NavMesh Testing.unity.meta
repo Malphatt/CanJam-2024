@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Player/UltimateMegaGun 1.prefab.meta
+guid: 919146ad42056ac459d970625710cce2
+PrefabImporter:
+========
 guid: 6310d050c3e9ef649b76ea810680268c
 DefaultImporter:
+>>>>>>>> main:Assets/Scenes/NavMesh Testing.unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
