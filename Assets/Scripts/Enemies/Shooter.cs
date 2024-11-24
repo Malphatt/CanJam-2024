@@ -43,6 +43,12 @@ public class Shooter : Enemy
     public AudioClip beep1;
     public AudioClip shoot1;
 
+    [SerializeField]
+    private Animator _animator;
+
+    public GameObject mech;
+
+
     private void Awake()
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>().NormalPlayer.transform;
@@ -51,6 +57,8 @@ public class Shooter : Enemy
         _navMeshAgent.speed = _enemyData.Speed;
         _timeBetweenAttacks = _enemyData.AttackCooldown;
         _attackRange = _enemyData.AttackRange;
+
+        _animator = mech.GetComponent<Animator>();
     }
 
     private new void Update()
@@ -68,6 +76,7 @@ public class Shooter : Enemy
 
     private void Patroling()
     {
+        _animator.SetBool("inRange", false);
         if (!_walkPointSet) SearchWalkPoint();
 
         if (_walkPointSet)
@@ -101,6 +110,7 @@ public class Shooter : Enemy
 
     private void AttackPlayer()
     {
+        _animator.SetBool("inRange", true);
         _navMeshAgent.SetDestination(_UpsideEnemy.transform.position);
 
         _UpsideEnemy.transform.LookAt(_player);
