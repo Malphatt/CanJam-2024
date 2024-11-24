@@ -17,7 +17,6 @@ public class LevelChange : MonoBehaviour
     void Start(){
         Canvas2.enabled = true;
         Canvas3.enabled = false;
-        
         Canvas5.enabled = false;
         currentCanvas = Canvas2;
     }
@@ -38,10 +37,15 @@ public class LevelChange : MonoBehaviour
         currentCanvas.enabled = false;
         Canvas2.enabled = true;
         currentCanvas = Canvas2;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void changeCanvas3()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         currentCanvas.enabled = false;
         Canvas3.enabled = true;
         currentCanvas = Canvas3;

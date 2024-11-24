@@ -1375,7 +1375,7 @@ RectTransform:
   m_GameObject: {fileID: 391258883}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.94, y: 1.2909, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2141828712}
@@ -1384,7 +1384,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 243.09607, y: -54.458984}
+  m_AnchoredPosition: {x: 390.63, y: -49.709}
   m_SizeDelta: {x: 386.734, y: 24.028992}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &391258885
@@ -1708,7 +1708,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1750025924}
         m_TargetAssemblyTypeName: LevelChange, Assembly-CSharp
-        m_MethodName: changeCanvas4
+        m_MethodName: changeCanvas5
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2140,6 +2140,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1593711049268635664, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1750025924}
+    - target: {fileID: 1593711049268635664, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: changeCanvas3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593711049268635664, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelChange, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1593711049268635664, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
       propertyPath: _animator
       value: 
@@ -4153,7 +4169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41a4ec20085545e4b8c51be9184281a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: MainUI
+  sceneName: Start Screne
   currentCanvas: {fileID: 1999582230}
   Canvas2: {fileID: 1999582230}
   Canvas3: {fileID: 65336370}
@@ -4691,8 +4707,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031571178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.94, y: 1.2909, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 920377609}
@@ -4701,7 +4717,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 151.40002, y: -86.29999}
+  m_AnchoredPosition: {x: 212.74, y: -90.814}
   m_SizeDelta: {x: 203.36102, y: 24.028992}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2031571180
@@ -5199,9 +5215,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: StartLevelChange, Assembly-CSharp
-        m_MethodName: changeCanvas1
+      - m_Target: {fileID: 1750025924}
+        m_TargetAssemblyTypeName: LevelChange, Assembly-CSharp
+        m_MethodName: changeCanvas3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

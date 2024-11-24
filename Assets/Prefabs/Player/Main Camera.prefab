@@ -233,6 +233,8 @@ MonoBehaviour:
   Camera: {fileID: 3645084869115019296}
   Weapons: {fileID: 2633696234408271253}
   MuzzlePoint: {fileID: 7626764629149717087}
+  Gun: {fileID: 7674564640776575809}
+  JamJar: {fileID: 4414920193236571731}
 --- !u!1 &7626764629149717087
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,6 +332,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Poison_Purple_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1471001059461388, guid: c1d501f0836891042af0a9b9060d3ff2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4041466980694828, guid: c1d501f0836891042af0a9b9060d3ff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.804
@@ -399,6 +405,10 @@ PrefabInstance:
     - target: {fileID: 1259762591101698, guid: d9c1fac1f620ebd4f9e47ef7b9ca6bca, type: 3}
       propertyPath: m_Name
       value: FX_FlameThrower_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1259762591101698, guid: d9c1fac1f620ebd4f9e47ef7b9ca6bca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4846459981974822, guid: d9c1fac1f620ebd4f9e47ef7b9ca6bca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -710,6 +720,11 @@ PrefabInstance:
 --- !u!4 &5433452766275243787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6199166817442513122, guid: c5a01ed36c110f8459af4e8f001b4583, type: 3}
+  m_PrefabInstance: {fileID: 2116795045490184169}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7674564640776575809 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -584946774456855384, guid: c5a01ed36c110f8459af4e8f001b4583, type: 3}
   m_PrefabInstance: {fileID: 2116795045490184169}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3305204708160664675
