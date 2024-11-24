@@ -183,13 +183,13 @@ public class LevelGenerator : MonoBehaviour
                 pointsArray[neighbours[j].X, neighbours[j].Y].isBlocked = true;
         }
 
-        //for (int i = 0; i < roomsPath.Count; i++)
-        //{
-        //    roomsPath[i].room.GetComponent<RoomManager>()?.RemoveDoors(
-        //        pointsArray[roomsPath[i].X, roomsPath[i].Y].exitDoorDirection,
-        //        pointsArray[roomsPath[i].X, roomsPath[i].Y].entranceDoorDirection
-        //    );
-        //}
+        for (int i = 0; i < roomsPath.Count; i++)
+        {
+            roomsPath[i].room.GetComponent<RoomManager>()?.RemoveDoors(
+                pointsArray[roomsPath[i].X, roomsPath[i].Y].exitDoorDirection,
+                pointsArray[roomsPath[i].X, roomsPath[i].Y].entranceDoorDirection
+            );
+        }
 
         NavMeshBuilder.BuildNavMesh();
     }

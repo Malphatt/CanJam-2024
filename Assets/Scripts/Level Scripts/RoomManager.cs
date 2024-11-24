@@ -43,7 +43,7 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    private void RemoveDoors(int entrance, int exit)
+    public void RemoveDoors(int entrance, int exit)
     {
         entranceDoorDirection = entrance;
         exitDoorDirection = exit;
