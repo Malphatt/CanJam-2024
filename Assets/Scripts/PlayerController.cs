@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -92,6 +90,10 @@ public class PlayerController : MonoBehaviour
     // Health
     public float CurrentHealth;
     private float _maxHealth = 100.0f;
+
+    // Ultimate
+    public int UltimateCharge = 0;
+    private int MaxUltimateCharge = 10;
 
     // Animation
     private Animator _animator;
@@ -240,6 +242,8 @@ public class PlayerController : MonoBehaviour
     {
         CurrentHealth -= damage;
 
+        UpdateHealth();
+
         if (CurrentHealth <= 0.0f)
             Destroy(gameObject);
 
@@ -328,18 +332,24 @@ public class PlayerController : MonoBehaviour
                 _animator.SetBool("Firing", true);
 
                 // If the object hit has an Enemy component
-                //if (
-                //    hit.collider != null &&
-                //    hit.collider.GetComponent<Enemy>()
-                //    || hit.collider.transform.parent.GetComponent<Enemy>()
-                //)
-                //{
-                //    // Call the TakeDamage function on the Enemy component
-                //    //hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                //    //hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                
+                if (
+                    hit.collider != null &&
+                    hit.collider.GetComponent<Enemy>()
+                    || hit.collider.transform.parent.GetComponent<Enemy>()
+                )
+                {
+                    // Call the TakeDamage function on the Enemy component
+                    float enemyHealthRemaining;
 
-                //}
+                    enemyHealthRemaining = (int)hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                    enemyHealthRemaining = (int)hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
+
+                    if (enemyHealthRemaining <= 0.0f)
+                    {
+                        UltimateCharge = Mathf.Clamp(UltimateCharge + 1, 0, MaxUltimateCharge);
+                        UpdateUltimate();
+                    }
+                }
             }
         }
         else if (weapon == "Melee")
@@ -425,8 +435,13 @@ public class PlayerController : MonoBehaviour
     public void OnSwitch(InputAction.CallbackContext context)
     {
 
-        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
+        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded && UltimateCharge == MaxUltimateCharge)
             StartCoroutine(StartSwitchAnimation());
+        else if (context.phase == InputActionPhase.Started)
+        {
+            // Animate the bar to say they can't use the ULT
+
+        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -535,5 +550,15 @@ public class PlayerController : MonoBehaviour
         );
 
         _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+    }
+
+    private void UpdateUltimate()
+    {
+        // MARK: Update the ultimate bar
+    }
+
+    public void UpdateHealth()
+    {
+        // MARK: Update the health bar
     }
 }
