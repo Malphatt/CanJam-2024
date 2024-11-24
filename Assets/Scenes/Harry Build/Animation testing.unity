@@ -781,6 +781,11 @@ Transform:
   - {fileID: 406708019}
   m_Father: {fileID: 67584362}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &556795394 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4414920193236571731, guid: 357ad697eb6a1f2459486a735f63fd0a, type: 3}
+  m_PrefabInstance: {fileID: 1128321363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &572516504
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,6 +2389,10 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 1877698329}
+    - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: _animator2
+      value: 
+      objectReference: {fileID: 556795394}
     - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
       propertyPath: _playerCamera
       value: 
