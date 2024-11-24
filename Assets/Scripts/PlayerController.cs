@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     private float _maxHealth = 100.0f;
 
     // Ultimate
-    public int UltimateCharge = 0;
+    public int UltimateCharge = 10;
     private int _maxUltimateCharge = 10;
 
     // Animation
