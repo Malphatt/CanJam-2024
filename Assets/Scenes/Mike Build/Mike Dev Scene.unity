@@ -240,6 +240,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!95 &426058031 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7674564640776575809, guid: 357ad697eb6a1f2459486a735f63fd0a, type: 3}
+  m_PrefabInstance: {fileID: 1657064577}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &536206922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,6 +253,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 426058031}
+    - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: _animator2
+      value: 
+      objectReference: {fileID: 1500424438}
     - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
       propertyPath: _playerCamera
       value: 
@@ -352,8 +365,9 @@ MonoBehaviour:
   StartRoom: {fileID: 632699565573675826, guid: 46eaadaad3fc9ba4894ad12a13e0708d, type: 3}
   EndRoom: {fileID: 0}
   Rooms:
-  - {fileID: 632699565573675826, guid: 46eaadaad3fc9ba4894ad12a13e0708d, type: 3}
   - {fileID: 4516346946380075561, guid: 22514243cecd5234eae71f521bc7f7a9, type: 3}
+  - {fileID: 632699565573675826, guid: 46eaadaad3fc9ba4894ad12a13e0708d, type: 3}
+  - {fileID: 4516346946380075561, guid: a54276559a89a4e4981e41ea7671a2dc, type: 3}
 --- !u!4 &904325061
 Transform:
   m_ObjectHideFlags: 0
@@ -369,6 +383,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1500424438 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4414920193236571731, guid: 357ad697eb6a1f2459486a735f63fd0a, type: 3}
+  m_PrefabInstance: {fileID: 1657064577}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1657064577
 PrefabInstance:
   m_ObjectHideFlags: 0
