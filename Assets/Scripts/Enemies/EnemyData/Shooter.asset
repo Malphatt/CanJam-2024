@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shooter
   m_EditorClassIdentifier: 
   Health: 100
+  Damage: 5
   Speed: 5
-  AttackCooldown: 0.5
+  AttackCooldown: 1
   AttackRange: 15
