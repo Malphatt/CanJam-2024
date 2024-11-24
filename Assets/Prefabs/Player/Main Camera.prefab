@@ -617,6 +617,8 @@ MonoBehaviour:
   MuzzlePoint: {fileID: 5272728768568063915}
   Gun: {fileID: 4210134771289422614}
   JamJar: {fileID: 7972046934308851231}
+  AudioControl: {fileID: 9187338190285742378}
+  BgMusic: {fileID: 8530546644696107584}
 --- !u!1001 &1855200381432515452
 PrefabInstance:
   m_ObjectHideFlags: 0

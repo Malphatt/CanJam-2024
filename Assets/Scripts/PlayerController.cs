@@ -101,8 +101,8 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private Animator _animator2;
 
-    [SerializeField] private AudioController _audioController;
-    [SerializeField] private BackgroundMusic _backgroundMusic;
+    private AudioController _audioController;
+    private BackgroundMusic _backgroundMusic;
 
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private UltBar _ultBar;
@@ -119,6 +119,9 @@ public class PlayerController : MonoBehaviour
 
         _animator = _playerCamera.Gun;
         _animator2 = _playerCamera.JamJar;
+
+        _audioController = _playerCamera.AudioControl;
+        _backgroundMusic = _playerCamera.BgMusic;
 
         CurrentHealth = _maxHealth;
 
