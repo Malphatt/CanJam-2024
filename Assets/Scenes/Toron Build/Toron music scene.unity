@@ -1072,6 +1072,7 @@ MonoBehaviour:
   backgroundMusic: {fileID: 8300000, guid: b38f5b39ab96f4243b4254e472989434, type: 3}
   flip: {fileID: 8300000, guid: 8068feadb895b574eaa4bffbdbfe68e6, type: 3}
   FireMainwep: {fileID: 8300000, guid: 352af36a60469ad4986c883dffadaf42, type: 3}
+  landed: {fileID: 8300000, guid: 8e1b9186902fdbe419e9d94357e4a2e2, type: 3}
 --- !u!1 &361586303
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,6 +2018,10 @@ PrefabInstance:
       propertyPath: _audioController
       value: 
       objectReference: {fileID: 247599127}
+    - target: {fileID: 3251668163327252166, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
+      propertyPath: _backgroundMusic
+      value: 
+      objectReference: {fileID: 871983334}
     - target: {fileID: 4373208488432117258, guid: 06bd25d4000ce884986dae4d1742c62e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2456,6 +2461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 871983333}
   - component: {fileID: 871983332}
+  - component: {fileID: 871983334}
   m_Layer: 0
   m_Name: 'Background Music '
   m_TagString: Untagged
@@ -2574,6 +2580,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &871983334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871983331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec60b3c5457a5b4da7869d6d656a9cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  MainBackgroundMusic: {fileID: 8300000, guid: b38f5b39ab96f4243b4254e472989434, type: 3}
+  MainBackgroundMusic2: {fileID: 8300000, guid: 293ef194212930748b1fe59001fb0984, type: 3}
+  MainBackgroundMusic3: {fileID: 8300000, guid: ded8d85dffbaaab4ca6702be4ab19aea, type: 3}
+  MirrorBackgroundMusic: {fileID: 8300000, guid: 23f87e843a7afeb4a985cbb7593a5f7b, type: 3}
+  MirrorBackgroundMusic2: {fileID: 8300000, guid: e6e33e0c84d756348bb07dbb5a91d9a5, type: 3}
+  Mirror: 0
 --- !u!1 &904325059
 GameObject:
   m_ObjectHideFlags: 0
