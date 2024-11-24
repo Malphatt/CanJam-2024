@@ -304,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera: {fileID: 1366147932386560669}
   Weapons: {fileID: 3729002601234986802}
-  MuzzlePoint: {fileID: 5394991393138603894}
+  MuzzlePoint: {fileID: 1345215368243723331}
   Gun: {fileID: 7664546389640499313}
   JamJar: {fileID: 3851979803047318270}
   AudioControl: {fileID: 7636796421105513811}
@@ -1261,7 +1261,7 @@ GameObject:
   - component: {fileID: 7791946730057773041}
   - component: {fileID: 4378846696965392890}
   m_Layer: 0
-  m_Name: Muzzle Point
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
