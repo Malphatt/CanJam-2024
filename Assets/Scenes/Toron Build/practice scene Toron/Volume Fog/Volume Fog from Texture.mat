@@ -23,7 +23,6 @@ Material:
   m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
-    RenderType: Transparent
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
@@ -52,7 +51,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_4EEA1A9E: -1.06
+    - Vector1_4EEA1A9E: -1.07
     - Vector1_5E73A52C: 40
     - Vector1_6098A7A7: 1.06
     - Vector1_6DD21BAC: 5.7
