@@ -125,8 +125,8 @@ public class PlayerController : MonoBehaviour
 
         CurrentHealth = _maxHealth;
 
-        _healthBar.setMaxHealth(_maxHealth);
-        _ultBar.setMaxUlt(_maxUltimateCharge);
+        _healthBar?.setMaxHealth(_maxHealth);
+        _ultBar?.setMaxUlt(_maxUltimateCharge);
 
         _rb = NormalPlayer.GetComponent<Rigidbody>();
 
@@ -575,6 +575,6 @@ public class PlayerController : MonoBehaviour
         _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
 
-    public void UpdateHealth() => _healthBar.SetHealth(CurrentHealth);
-    private void UpdateUltimate() => _ultBar.SetUlt(UltimateCharge);
+    public void UpdateHealth() => _healthBar?.SetHealth(CurrentHealth);
+    private void UpdateUltimate() => _ultBar?.SetUlt(UltimateCharge);
 }
