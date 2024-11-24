@@ -93,22 +93,16 @@ public class PlayerController : MonoBehaviour
     public float CurrentHealth;
     private float _maxHealth = 100.0f;
 
+    // Ultimate
+    public int UltimateCharge = 0;
+    private int _maxUltimateCharge = 10;
+
     // Animation
-    [SerializeField]
     private Animator _animator;
-
-
-    [SerializeField]
     private Animator _animator2;
-    //Records mirror
-    private bool _mirror = false;
 
     [SerializeField] private AudioController _audioController;
     [SerializeField] private BackgroundMusic _backgroundMusic;
-    //Particle effects
-    //GameObject smoke;
-    //GameObject Light;
-
 
     [SerializeField] private HealthBar _healthBar;
     [SerializeField] private UltBar _ultBar;
@@ -123,10 +117,13 @@ public class PlayerController : MonoBehaviour
         _weapons = _playerCamera.Weapons;
         _muzzlePoint = _playerCamera.MuzzlePoint.transform;
 
+        _animator = _playerCamera.Gun;
+        _animator2 = _playerCamera.JamJar;
+
         CurrentHealth = _maxHealth;
 
         _healthBar.setMaxHealth(_maxHealth);
-        _ultBar.setMaxUlt(MaxUltimateCharge);
+        _ultBar.setMaxUlt(_maxUltimateCharge);
 
         _rb = NormalPlayer.GetComponent<Rigidbody>();
 
@@ -261,6 +258,8 @@ public class PlayerController : MonoBehaviour
     {
         CurrentHealth -= damage;
 
+        UpdateHealth();
+
         if (CurrentHealth <= 0.0f)
             Destroy(gameObject);
 
@@ -350,18 +349,25 @@ public class PlayerController : MonoBehaviour
                 _animator.SetBool("Firing", true);
 
                 // If the object hit has an Enemy component
-                //if (
-                //    hit.collider != null &&
-                //    hit.collider.GetComponent<Enemy>()
-                //    || hit.collider.transform.parent.GetComponent<Enemy>()
-                //)
-                //{
-                //    // Call the TakeDamage function on the Enemy component
-                //    //hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                //    //hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                
+                if (
+                    hit.collider != null &&
+                    hit.collider.GetComponent<Enemy>()
+                    || hit.collider.transform.parent.GetComponent<Enemy>()
+                )
+                {
+                    float enemyHealthRemaining;
 
-                //}
+
+                    // Call the TakeDamage function on the Enemy component
+                    enemyHealthRemaining = (float) hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                    enemyHealthRemaining = (float) hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
+
+                    if (enemyHealthRemaining <= 0.0f)
+                    {
+                        UltimateCharge = Mathf.Clamp(UltimateCharge + 1, 0, _maxUltimateCharge);
+                        UpdateUltimate();
+                    }
+                }
             }
         }
         else if (weapon == "Melee")
@@ -447,8 +453,13 @@ public class PlayerController : MonoBehaviour
     public void OnSwitch(InputAction.CallbackContext context)
     {
 
-        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
+        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded && UltimateCharge == _maxUltimateCharge)
             StartCoroutine(StartSwitchAnimation());
+        else if (context.phase == InputActionPhase.Started)
+        {
+            // Switch anim if not ready
+
+        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -557,10 +568,7 @@ public class PlayerController : MonoBehaviour
 
         _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
-<<<<<<< Updated upstream
-=======
 
     public void UpdateHealth() => _healthBar.SetHealth(CurrentHealth);
     private void UpdateUltimate() => _ultBar.SetUlt(UltimateCharge);
->>>>>>> Stashed changes
 }
