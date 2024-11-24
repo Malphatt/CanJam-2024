@@ -36,12 +36,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rb;
     private Vector3 _velocity = Vector3.zero;
 
-    private readonly float _gravity = -40.0f;
+    private float _gravity = -120.0f;
 
     private readonly float _movementSmoothing = 0.05f;
 
-    private readonly float _walkSpeed = 18.0f;
-    private readonly float _sprintSpeed = 25.0f;
+    private float _walkSpeed = 25.0f;
+    private float _sprintSpeed = 35.0f;
     private readonly float _transitionAcceleration = 0.2f;
     private float _targetVelocity = 0.0f;
 
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     private bool _isSprinting = false;
 
     // Jump
-    private readonly float _jumpForce = 25.0f;
+    private float _jumpForce = 35.0f;
     private bool _jumpedThisFrame = false;
     private bool _isJumping = false;
 
@@ -149,7 +149,10 @@ public class PlayerController : MonoBehaviour
             _jumpBuffered = false;
 
         // Apply Gravity
-        _rb.AddForce(Vector3.up * _gravity, ForceMode.Acceleration);
+        if (_rb.velocity.y > 0.0f)
+            _rb.velocity += Vector3.up * (_gravity / 4) * Time.deltaTime;
+        else
+            _rb.velocity += Vector3.up * _gravity * Time.deltaTime;
 
         _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.1f, _groundLayer);
 
@@ -263,7 +266,7 @@ public class PlayerController : MonoBehaviour
         _isGrounded = false;
         _jumpBuffered = false;
         _heldJump = true;
-        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+        _rb.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
     }
 
     private void UseWeapon()
