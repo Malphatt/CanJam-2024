@@ -94,26 +94,21 @@ public class PlayerController : MonoBehaviour
     private float _maxHealth = 100.0f;
 
     // Animation
-    [SerializeField]
     private Animator _animator;
-
-
-    [SerializeField]
     private Animator _animator2;
     //Records mirror
     private bool _mirror = false;
 
     [SerializeField] private AudioController _audioController;
-    //Particle effects
-    //GameObject smoke;
-    //GameObject Light;
-
 
     void Awake()
     {
         _camera = _playerCamera.Camera;
         _weapons = _playerCamera.Weapons;
         _muzzlePoint = _playerCamera.MuzzlePoint.transform;
+
+        _animator = _playerCamera.Gun;
+        _animator2 = _playerCamera.JamJar;
 
         CurrentHealth = _maxHealth;
 
