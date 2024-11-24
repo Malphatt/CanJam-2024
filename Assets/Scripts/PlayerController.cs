@@ -413,12 +413,16 @@ public class PlayerController : MonoBehaviour
     {
         _isSwitching = true;
 
+        float offset = 0.0f;
+
         // Shift the camera's y-axis gradually to the ground (NormalPlayer's position.y - 0.5f)
-        while (_switchState == 1 ? _camera.transform.position.y > NormalPlayer.transform.position.y - 0.5f : _camera.transform.position.y < -NormalPlayer.transform.position.y + 0.5f)
+        while (offset < 1.0f)
         {
+            offset += 0.025f;
+
             _camera.transform.position = new Vector3(
                 NormalPlayer.transform.position.x,
-                _camera.transform.position.y - (0.075f * _switchState),
+                _switchState * (NormalPlayer.transform.position.y + 0.5f - offset),
                 NormalPlayer.transform.position.z
             );
 
@@ -433,18 +437,20 @@ public class PlayerController : MonoBehaviour
                 0.0f,
                 0.0f,
                 0.0f,
-                1.0f - (Mathf.Abs(_weapons.transform.localScale.y) + 0.1f)
+                Mathf.Clamp(offset, 0, 1.0f)
             );
 
             yield return new WaitForSeconds(0.01f);
         }
 
+        offset = 1.0f;
+
         // Teleport the camera to the ground (-NormalPlayer's position.y + 0.5f)
-        _camera.transform.position = new Vector3(
-            NormalPlayer.transform.position.x,
-            _switchState * (-NormalPlayer.transform.position.y + 0.5f),
-            NormalPlayer.transform.position.z
-        );
+        //_camera.transform.position = new Vector3(
+        //    NormalPlayer.transform.position.x,
+        //    _switchState * (-NormalPlayer.transform.position.y + 0.5f),
+        //    NormalPlayer.transform.position.z
+        //);
         _weapons.transform.localScale = new Vector3(
             _weapons.transform.localScale.x,
             0.0f,
@@ -455,15 +461,17 @@ public class PlayerController : MonoBehaviour
             0.0f,
             0.0f,
             0.0f,
-            1.0f - Mathf.Abs(_weapons.transform.localScale.y)
+            offset
         );
 
         // Animate the camera coming back up also
-        while (_switchState == 1 ? _camera.transform.position.y > -NormalPlayer.transform.position.y - 0.5f : _camera.transform.position.y < NormalPlayer.transform.position.y + 0.5f)
+        while (offset > 0.0f)
         {
+            offset -= 0.025f;
+
             _camera.transform.position = new Vector3(
                 NormalPlayer.transform.position.x,
-                _camera.transform.position.y - (0.025f * _switchState),
+                _switchState * (-NormalPlayer.transform.position.y - 0.5f + offset),
                 NormalPlayer.transform.position.z
             );
 
@@ -477,7 +485,7 @@ public class PlayerController : MonoBehaviour
                 0.0f,
                 0.0f,
                 0.0f,
-                1.0f - (Mathf.Abs(_weapons.transform.localScale.y) + 0.1f)
+                Mathf.Clamp(offset, 0, 1.0f)
             );
 
             yield return new WaitForSeconds(0.01f);
