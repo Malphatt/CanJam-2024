@@ -346,6 +346,7 @@ public class PlayerController : MonoBehaviour
                     _muzzlePoint.transform.position.z
                 );
                 TrailRenderer trail = Instantiate(BulletTrail, _tempMuzzleStart, Quaternion.identity);
+                StartCoroutine(SpawnTrail(trail, hit));
                 _tempMuzzleEnd = new Vector3(
                     hit.point.x,
                     hit.point.y,
