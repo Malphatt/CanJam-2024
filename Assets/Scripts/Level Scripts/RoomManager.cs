@@ -18,6 +18,10 @@ public class RoomManager : MonoBehaviour
 
     private GameObject[][] doors;
 
+    [SerializeField]
+    private GameObject[] enemies;
+    private bool doorsRemoved = false;
+
     void Awake()
     {
         // Create a 2D array of doors.
@@ -30,12 +34,19 @@ public class RoomManager : MonoBehaviour
         doors[3] = leftDoors;
     }
 
-    public void RemoveDoors(int entrance, int exit)
+    private void Update()
+    {
+        if ((enemies.Length == 0 || enemies == null) && !doorsRemoved)
+        {
+            RemoveDoors(entranceDoorDirection, exitDoorDirection);
+            doorsRemoved = true;
+        }
+    }
+
+    private void RemoveDoors(int entrance, int exit)
     {
         entranceDoorDirection = entrance;
         exitDoorDirection = exit;
-
-        Debug.Log("Entrance: " + entranceDoorDirection + " Exit: " + exitDoorDirection);
 
         if (entranceDoorDirection != -1)
         {
