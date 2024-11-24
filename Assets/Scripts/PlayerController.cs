@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -92,6 +93,22 @@ public class PlayerController : MonoBehaviour
     public float CurrentHealth;
     private float _maxHealth = 100.0f;
 
+    // Animation
+    [SerializeField]
+    private Animator _animator;
+
+
+    [SerializeField]
+    private Animator _animator2;
+    //Records mirror
+    private bool _mirror = false;
+
+
+    //Particle effects
+    //GameObject smoke;
+    //GameObject Light;
+
+
     void Awake()
     {
         _camera = _playerCamera.Camera;
@@ -174,8 +191,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
     void Update()
     {
+        _animator2.SetBool("isMelee", false);
         // Draw Melee & Ranged Ray
         Debug.DrawRay(NormalPlayer.transform.position, NormalPlayer.transform.forward * _meleeRange, Color.red);
 
@@ -216,6 +235,7 @@ public class PlayerController : MonoBehaviour
             NormalPlayer.transform.rotation.eulerAngles.y,
             _camera.transform.rotation.eulerAngles.z
         );
+        
     }
 
     public float TakeDamage(float damage)
@@ -273,6 +293,8 @@ public class PlayerController : MonoBehaviour
             _timeSinceFired = Time.time;
             Attack("Gun");
         }
+        else if (!_isFiring)
+            _animator.SetBool("Firing", false);
     }
 
     private void Attack(string weapon)
@@ -291,29 +313,34 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
 
             // If the raycast hits something
-            if (Physics.Raycast(ray, out hit, _rangedRange, _enemyLayer))
+            if (Physics.Raycast(ray, out hit, _rangedRange))
             {
-                // If the object hit has an Enemy component
-                if (
-                    hit.collider.GetComponent<Enemy>()
-                    || hit.collider.transform.parent.GetComponent<Enemy>()
-                )
-                {
-                    _tempMuzzleStart = new Vector3(
-                        _muzzlePoint.transform.position.x,
-                        _muzzlePoint.transform.position.y,
-                        _muzzlePoint.transform.position.z
-                    );
-                    _tempMuzzleEnd = new Vector3(
-                        hit.point.x,
-                        hit.point.y,
-                        hit.point.z
-                    );
+                _tempMuzzleStart = new Vector3(
+                    _muzzlePoint.transform.position.x,
+                    _muzzlePoint.transform.position.y,
+                    _muzzlePoint.transform.position.z
+                );
+                _tempMuzzleEnd = new Vector3(
+                    hit.point.x,
+                    hit.point.y,
+                    hit.point.z
+                );
 
-                    // Call the TakeDamage function on the Enemy component
-                    //hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                    //hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
-                }
+                _animator.SetBool("Firing", true);
+
+                // If the object hit has an Enemy component
+                //if (
+                //    hit.collider != null &&
+                //    hit.collider.GetComponent<Enemy>()
+                //    || hit.collider.transform.parent.GetComponent<Enemy>()
+                //)
+                //{
+                //    // Call the TakeDamage function on the Enemy component
+                //    //hit.collider.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                //    //hit.collider.transform.parent.GetComponent<Enemy>()?.TakeDamage(10.0f);
+                
+
+                //}
             }
         }
         else if (weapon == "Melee")
@@ -322,6 +349,7 @@ public class PlayerController : MonoBehaviour
             Ray ray = new Ray(NormalPlayer.transform.position, NormalPlayer.transform.forward);
             RaycastHit hit;
 
+            _animator2.SetBool("isMelee", true);
             // If the raycast hits something
             if (Physics.Raycast(ray, out hit, _meleeRange, _enemyLayer))
             {
@@ -399,6 +427,18 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
             StartCoroutine(StartSwitchAnimation());
+        if (_mirror == false)
+        {
+            _animator.SetBool("Swap", true);
+            _animator2.SetBool("Flipped", true);
+            _mirror = true;
+        }
+        else
+        {
+            _animator.SetBool("Swap", false);
+            _animator2.SetBool("Flipped", false);
+            _mirror = false;
+        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
