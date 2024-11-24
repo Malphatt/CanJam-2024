@@ -23,13 +23,13 @@ Material:
   m_Name: Mirror world fog
   m_Shader: {fileID: -6465566751694194690, guid: d1f15922cce0c8841b3b0e6c748fb903, type: 3}
   m_Parent: {fileID: -876546973899608171, guid: d1f15922cce0c8841b3b0e6c748fb903, type: 3}
-  m_ModifiedSerializedProperties: 6
+  m_ModifiedSerializedProperties: 30
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2993
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
@@ -44,15 +44,16 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - Vector1_4EEA1A9E: 1.4
+    - Vector1_4EEA1A9E: 4.7
     - Vector1_5E73A52C: 0.76
-    - Vector1_6098A7A7: 5.7
-    - Vector1_6DD21BAC: 0.68
-    - Vector1_6F1EA0F8: 1.9
-    - Vector1_AF6ECEBD: 0.2
+    - Vector1_6098A7A7: 6.8
+    - Vector1_6DD21BAC: 10
+    - Vector1_6F1EA0F8: 0.32
+    - Vector1_AF6ECEBD: 0.54
     - _AlphaDstBlend: 10
     - _DstBlend: 10
     - _QueueControl: 0
+    - _QueueOffset: -7
     m_Colors:
     - _Color: {r: 0.64705884, g: 0.67444867, b: 0.8862745, a: 0}
   m_BuildTextureStacks: []
