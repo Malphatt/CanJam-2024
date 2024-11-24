@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 _tempMuzzleStart = Vector3.zero;
     private Vector3 _tempMuzzleEnd = Vector3.zero;
 
+    [SerializeField]
+    private Light light;
+
     // Look
     // Controller
     private Vector2 _lookInput = Vector2.zero;
@@ -519,6 +522,15 @@ public class PlayerController : MonoBehaviour
         }
 
         offset = 1.0f;
+
+        if (_switchState == 1)
+        {
+            light.color = new Color(1.0f, 0.713f, 0.424f);
+        }
+        else
+        {
+            light.color = new Color(0.38f, 0.67f, 0.71f);
+        }
 
         // Teleport the camera to the ground (-NormalPlayer's position.y + 0.5f)
         //_camera.transform.position = new Vector3(

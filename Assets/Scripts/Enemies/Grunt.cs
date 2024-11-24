@@ -31,6 +31,12 @@ public class Grunt : Enemy
     [SerializeField]
     private bool _playerInSightRange, _playerInAttackRange;
 
+
+    [SerializeField]
+    private Animator _animator;
+
+    public GameObject Beebop;
+
     private void Awake()
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>().NormalPlayer.transform;
@@ -38,6 +44,7 @@ public class Grunt : Enemy
         _navMeshAgent.speed = _enemyData.Speed;
         _timeBetweenAttacks = _enemyData.AttackCooldown;
         _attackRange = _enemyData.AttackRange;
+        _animator = Beebop.GetComponent<Animator>();
     }
 
     private new void Update()
@@ -57,6 +64,7 @@ public class Grunt : Enemy
 
     private void Patroling()
     {
+        _animator.SetBool("Chasing", true);
         if (!_walkPointSet) SearchWalkPoint();
 
         if (_walkPointSet)
@@ -85,6 +93,7 @@ public class Grunt : Enemy
 
     private void AttackPlayer()
     {
+        _animator.SetBool("Chasing", true); ;
         _navMeshAgent.SetDestination(_UpsideEnemy.transform.position);
 
         _UpsideEnemy.transform.LookAt(_player);
