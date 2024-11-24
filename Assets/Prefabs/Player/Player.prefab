@@ -371,7 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalPlayer: {fileID: 1372278070148686075}
   _mirroredPlayer: {fileID: 8213666976720570995}
-  _playerCamera: {fileID: 1940209803703360246, guid: 357ad697eb6a1f2459486a735f63fd0a, type: 3}
+  _playerCamera: {fileID: 0}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -380,6 +380,8 @@ MonoBehaviour:
     m_Bits: 128
   _BlackScreen: {fileID: 936066602100772808}
   CurrentHealth: 0
+  UltimateCharge: 0
+  BulletTrail: {fileID: 0}
 --- !u!1 &8213666976720570995
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +393,7 @@ GameObject:
   - component: {fileID: 1020705394292649233}
   - component: {fileID: 8664070691439423941}
   - component: {fileID: 2078935205055721954}
+  - component: {fileID: 6568717021825912205}
   m_Layer: 0
   m_Name: Player (Mirrored)
   m_TagString: Untagged
@@ -463,6 +466,42 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6568717021825912205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8213666976720570995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    albedo: {r: 1, g: 1, b: 1, a: 1}
+    meanFreePath: 10
+    blendingMode: 1
+    priority: 0
+    anisotropy: 0
+    volumeMask: {fileID: 0}
+    textureScrollingSpeed: {x: 0, y: 0, z: 0}
+    textureTiling: {x: 1, y: 1, z: 1}
+    positiveFade: {x: 0.1, y: 0.1, z: 0.1}
+    negativeFade: {x: 0.1, y: 0.1, z: 0.1}
+    m_EditorUniformFade: 0.1
+    m_EditorPositiveFade: {x: 0.1, y: 0.1, z: 0.1}
+    m_EditorNegativeFade: {x: 0.1, y: 0.1, z: 0.1}
+    m_EditorAdvancedFade: 0
+    size: {x: 1, y: 1, z: 1}
+    invertFade: 0
+    distanceFadeStart: 10000
+    distanceFadeEnd: 10000
+    textureOffset: {x: 0, y: 0, z: 0}
+    falloffMode: 0
+    maskMode: 0
+    materialMask: {fileID: 0}
+  m_Version: 2
 --- !u!1 &8608082457739332305
 GameObject:
   m_ObjectHideFlags: 0
