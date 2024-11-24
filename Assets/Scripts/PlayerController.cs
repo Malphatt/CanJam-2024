@@ -37,12 +37,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rb;
     private Vector3 _velocity = Vector3.zero;
 
-    private readonly float _gravity = -40.0f;
+    private float _gravity = -120.0f;
 
     private readonly float _movementSmoothing = 0.05f;
 
-    private readonly float _walkSpeed = 18.0f;
-    private readonly float _sprintSpeed = 25.0f;
+    private float _walkSpeed = 25.0f;
+    private float _sprintSpeed = 35.0f;
     private readonly float _transitionAcceleration = 0.2f;
     private float _targetVelocity = 0.0f;
 
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     private bool _isSprinting = false;
 
     // Jump
-    private readonly float _jumpForce = 25.0f;
+    private float _jumpForce = 35.0f;
     private bool _jumpedThisFrame = false;
     private bool _isJumping = false;
 
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     //Records mirror
     private bool _mirror = false;
 
-
+    [SerializeField] private AudioController _audioController;
     //Particle effects
     //GameObject smoke;
     //GameObject Light;
@@ -166,7 +166,10 @@ public class PlayerController : MonoBehaviour
             _jumpBuffered = false;
 
         // Apply Gravity
-        _rb.AddForce(Vector3.up * _gravity, ForceMode.Acceleration);
+        if (_rb.velocity.y > 0.0f)
+            _rb.velocity += Vector3.up * (_gravity / 4) * Time.deltaTime;
+        else
+            _rb.velocity += Vector3.up * _gravity * Time.deltaTime;
 
         _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.1f, _groundLayer);
 
@@ -283,7 +286,7 @@ public class PlayerController : MonoBehaviour
         _isGrounded = false;
         _jumpBuffered = false;
         _heldJump = true;
-        _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+        _rb.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
     }
 
     private void UseWeapon()
@@ -301,6 +304,7 @@ public class PlayerController : MonoBehaviour
     {
         if (weapon == "Gun")
         {
+            _audioController.FireMain();
             // Make a raycast from the camera's position to the camera's forward direction
             Ray ray = new Ray(
                 new Vector3(
@@ -425,20 +429,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwitch(InputAction.CallbackContext context)
     {
+
         if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
             StartCoroutine(StartSwitchAnimation());
-        if (_mirror == false)
-        {
-            _animator.SetBool("Swap", true);
-            _animator2.SetBool("Flipped", true);
-            _mirror = true;
-        }
-        else
-        {
-            _animator.SetBool("Swap", false);
-            _animator2.SetBool("Flipped", false);
-            _mirror = false;
-        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -451,6 +444,11 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator StartSwitchAnimation()
     {
+        _audioController.FlipToMirror();
+
+        _animator.SetBool("Swap", _switchState == 1);
+        _animator2.SetBool("Flipped", _switchState == 1);
+
         _isSwitching = true;
 
         float offset = 0.0f;
