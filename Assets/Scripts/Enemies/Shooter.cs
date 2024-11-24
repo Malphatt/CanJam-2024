@@ -25,6 +25,7 @@ public class Shooter : Enemy
     [SerializeField]
     private float _timeBetweenAttacks;
     private bool _alreadyAttacked;
+    private float _bulletSpread = 1.0f;
 
     // States
     [SerializeField]
@@ -94,6 +95,20 @@ public class Shooter : Enemy
         if (!_alreadyAttacked)
         {
             // Attack code here
+            // Make a ray to shoot the bullet at the player (vary the direction a little bit to create a spread)
+            Vector3 shootDirection = (_player.position + (new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)) * _bulletSpread)).normalized;
+
+            // Raycast to check if the player is in sight
+            if (Physics.Raycast(_UpsideEnemy.transform.position, shootDirection, out RaycastHit hit, _attackRange))
+            {
+                if (hit.transform.CompareTag("Player"))
+                {
+                    // Deal damage to the player
+                    //hit.transform.GetComponent<PlayerController>().TakeDamage(5.0f);
+                }
+            }
+
+
 
 
             _alreadyAttacked = true;
