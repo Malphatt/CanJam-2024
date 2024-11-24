@@ -109,8 +109,6 @@ public class Shooter : Enemy
                 Random.Range(-_bulletSpread, _bulletSpread) * distance
             );
 
-            Debug.Log(shootLocation);
-
             Debug.DrawRay(_UpsideEnemy.transform.position, shootLocation - _UpsideEnemy.transform.position, Color.red, 1.0f);
             Debug.DrawRay(_muzzlePoint.transform.position, shootLocation - _muzzlePoint.transform.position, Color.yellow, 1.0f);
 
