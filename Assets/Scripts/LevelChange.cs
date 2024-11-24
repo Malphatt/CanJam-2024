@@ -15,6 +15,9 @@ public class LevelChange : MonoBehaviour
     public Canvas Canvas3;
     public Canvas Canvas5;
     void Start(){
+        Canvas2 = GameObject.Find("MainUI").GetComponent<Canvas>();
+        currentCanvas = Canvas2;
+
         Canvas2.enabled = true;
         Canvas3.enabled = false;
         Canvas5.enabled = false;
