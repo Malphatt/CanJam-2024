@@ -110,6 +110,13 @@ public class PlayerController : MonoBehaviour
     //GameObject Light;
 
 
+    [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private UltBar _ultBar;
+
+    //Trail
+    [SerializeField]
+    TrailRenderer BulletTrail;
+
     void Awake()
     {
         _camera = _playerCamera.Camera;
@@ -117,6 +124,9 @@ public class PlayerController : MonoBehaviour
         _muzzlePoint = _playerCamera.MuzzlePoint.transform;
 
         CurrentHealth = _maxHealth;
+
+        _healthBar.setMaxHealth(_maxHealth);
+        _ultBar.setMaxUlt(MaxUltimateCharge);
 
         _rb = NormalPlayer.GetComponent<Rigidbody>();
 
@@ -330,6 +340,7 @@ public class PlayerController : MonoBehaviour
                     _muzzlePoint.transform.position.y,
                     _muzzlePoint.transform.position.z
                 );
+                TrailRenderer trail = Instantiate(BulletTrail, _tempMuzzleStart, Quaternion.identity);
                 _tempMuzzleEnd = new Vector3(
                     hit.point.x,
                     hit.point.y,
@@ -546,4 +557,10 @@ public class PlayerController : MonoBehaviour
 
         _BlackScreen.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
+<<<<<<< Updated upstream
+=======
+
+    public void UpdateHealth() => _healthBar.SetHealth(CurrentHealth);
+    private void UpdateUltimate() => _ultBar.SetUlt(UltimateCharge);
+>>>>>>> Stashed changes
 }

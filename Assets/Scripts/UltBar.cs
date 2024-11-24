@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UltBar : MonoBehaviour
 {
+    
+
     public Slider slider;
     // Start is called before the first frame update
 
