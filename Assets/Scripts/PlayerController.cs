@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     //Records mirror
     private bool _mirror = false;
 
-
+    [SerializeField] private AudioController _audioController;
     //Particle effects
     //GameObject smoke;
     //GameObject Light;
@@ -304,6 +304,7 @@ public class PlayerController : MonoBehaviour
     {
         if (weapon == "Gun")
         {
+            _audioController.FireMain();
             // Make a raycast from the camera's position to the camera's forward direction
             Ray ray = new Ray(
                 new Vector3(
@@ -352,7 +353,7 @@ public class PlayerController : MonoBehaviour
             Ray ray = new Ray(NormalPlayer.transform.position, NormalPlayer.transform.forward);
             RaycastHit hit;
 
-            _animator2.SetBool("isMelee", true);
+            _animator2.SetTrigger("Melee");
             // If the raycast hits something
             if (Physics.Raycast(ray, out hit, _meleeRange, _enemyLayer))
             {
@@ -428,20 +429,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwitch(InputAction.CallbackContext context)
     {
+
         if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
             StartCoroutine(StartSwitchAnimation());
-        if (_mirror == false)
-        {
-            _animator.SetBool("Swap", true);
-            _animator2.SetBool("Flipped", true);
-            _mirror = true;
-        }
-        else
-        {
-            _animator.SetBool("Swap", false);
-            _animator2.SetBool("Flipped", false);
-            _mirror = false;
-        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -454,6 +444,11 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator StartSwitchAnimation()
     {
+        _audioController.FlipToMirror();
+
+        _animator.SetBool("Swap", _switchState == 1);
+        _animator2.SetBool("Flipped", _switchState == 1);
+
         _isSwitching = true;
 
         float offset = 0.0f;
