@@ -44,6 +44,7 @@ public class Grunt : Enemy
         _navMeshAgent.speed = _enemyData.Speed;
         _timeBetweenAttacks = _enemyData.AttackCooldown;
         _attackRange = _enemyData.AttackRange;
+        _animator = Beebop.GetComponent<Animator>();
     }
 
     private new void Update()
@@ -92,7 +93,7 @@ public class Grunt : Enemy
 
     private void AttackPlayer()
     {
-        _animator.SetBool("Chasing", false);
+        _animator.SetBool("Chasing", true); ;
         _navMeshAgent.SetDestination(_UpsideEnemy.transform.position);
 
         _UpsideEnemy.transform.LookAt(_player);
