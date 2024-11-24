@@ -372,6 +372,9 @@ public class PlayerController : MonoBehaviour
         }
         else if (weapon == "Melee")
         {
+
+            _audioController.BeatIt();
+
             // Make a raycast from the player's position to the player's forward direction
             Ray ray = new Ray(NormalPlayer.transform.position, NormalPlayer.transform.forward);
             RaycastHit hit;

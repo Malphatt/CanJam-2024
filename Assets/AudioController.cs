@@ -11,6 +11,7 @@ public class AudioController : MonoBehaviour
     public AudioClip flip;
     public AudioClip FireMainwep;
     public AudioClip landed;
+    public AudioClip punch;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,5 +43,11 @@ public class AudioController : MonoBehaviour
         audioSource.clip = landed;
         audioSource.Play();
 
+    }
+
+    public void BeatIt()
+    {
+        audioSource.clip = punch;
+        audioSource.Play();
     }
 }
