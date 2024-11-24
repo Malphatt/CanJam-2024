@@ -79,10 +79,7 @@ public class Grunt : Enemy
             _walkPointSet = true;
     }
 
-    private void ChasePlayer()
-    {
-        _navMeshAgent.SetDestination(_player.position);
-    }
+    private void ChasePlayer() => _navMeshAgent.SetDestination(_player.position);
 
     private void AttackPlayer()
     {
@@ -100,10 +97,7 @@ public class Grunt : Enemy
         }
     }
 
-    private void ResetAttack()
-    {
-        _alreadyAttacked = false;
-    }
+    private void ResetAttack() => _alreadyAttacked = false;
 
     private void OnDrawGizmosSelected()
     {

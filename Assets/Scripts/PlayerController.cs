@@ -12,15 +12,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject _mirroredPlayer;
     [SerializeField]
+    private PlayerCamera _playerCamera;
+
+    private GameObject _camera;
     private GameObject _weapons;
-    [SerializeField]
     private Transform _muzzlePoint;
 
     private Vector3 _tempMuzzleStart = Vector3.zero;
     private Vector3 _tempMuzzleEnd = Vector3.zero;
-
-    [SerializeField]
-    private GameObject _camera;
 
     // Look
     // Controller
@@ -41,9 +40,9 @@ public class PlayerController : MonoBehaviour
 
     private readonly float _movementSmoothing = 0.05f;
 
-    private readonly float _walkSpeed = 10.0f;
-    private readonly float _sprintSpeed = 20.0f;
-    private readonly float _transitionAcceleration = 0.1f;
+    private readonly float _walkSpeed = 18.0f;
+    private readonly float _sprintSpeed = 25.0f;
+    private readonly float _transitionAcceleration = 0.2f;
     private float _targetVelocity = 0.0f;
 
     private Vector3 _moveDirection = Vector3.zero;
@@ -89,8 +88,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Image _BlackScreen;
 
+    // Health
+    public float CurrentHealth;
+    private float _maxHealth = 100.0f;
+
     void Awake()
     {
+        _camera = _playerCamera.Camera;
+        _weapons = _playerCamera.Weapons;
+        _muzzlePoint = _playerCamera.MuzzlePoint.transform;
+
+        CurrentHealth = _maxHealth;
+
         _rb = NormalPlayer.GetComponent<Rigidbody>();
 
         _targetVelocity = _walkSpeed;
@@ -207,6 +216,16 @@ public class PlayerController : MonoBehaviour
             NormalPlayer.transform.rotation.eulerAngles.y,
             _camera.transform.rotation.eulerAngles.z
         );
+    }
+
+    public float TakeDamage(float damage)
+    {
+        CurrentHealth -= damage;
+
+        if (CurrentHealth <= 0.0f)
+            Destroy(gameObject);
+
+        return Mathf.Clamp(CurrentHealth, 0.0f, _maxHealth);
     }
 
     private void Move()
