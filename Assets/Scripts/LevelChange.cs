@@ -11,18 +11,15 @@ public class LevelChange : MonoBehaviour
     // Start is called before the first frame update
 
     public Canvas currentCanvas;
-    public Canvas Canvas1;
     public Canvas Canvas2;
     public Canvas Canvas3;
-    public Canvas Canvas4;
     public Canvas Canvas5;
     void Start(){
-        Canvas1.enabled = true;
-        Canvas2.enabled = false;
+        Canvas2.enabled = true;
         Canvas3.enabled = false;
-        Canvas4.enabled = false;
+        
         Canvas5.enabled = false;
-        currentCanvas = Canvas1;
+        currentCanvas = Canvas2;
     }
 
 
@@ -50,19 +47,8 @@ public class LevelChange : MonoBehaviour
         currentCanvas = Canvas3;
     }
 
-    public void changeCanvas4()
-    {
-        currentCanvas.enabled = false;
-        Canvas4.enabled = true;
-        currentCanvas = Canvas4;
-    }
 
-    public void changeCanvas1()
-    {
-        currentCanvas.enabled = false;
-        Canvas1.enabled = true;
-        currentCanvas = Canvas1;
-    }
+
 
     public void changeCanvas5()
     {
