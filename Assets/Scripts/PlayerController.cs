@@ -333,7 +333,7 @@ public class PlayerController : MonoBehaviour
             Ray ray = new Ray(
                 new Vector3(
                     NormalPlayer.transform.position.x,
-                    NormalPlayer.transform.position.y + 0.5f,
+                    (NormalPlayer.transform.position.y + 0.5f) * _switchState,
                     NormalPlayer.transform.position.z
                 ),
                 new Vector3(NormalPlayer.transform.forward.x, _camera.transform.forward.y, NormalPlayer.transform.forward.z)
@@ -349,6 +349,7 @@ public class PlayerController : MonoBehaviour
                     _muzzlePoint.transform.position.z
                 );
                 TrailRenderer trail = Instantiate(BulletTrail, _tempMuzzleStart, Quaternion.identity);
+                StartCoroutine(SpawnTrail(trail, hit));
                 _tempMuzzleEnd = new Vector3(
                     hit.point.x,
                     hit.point.y,
@@ -592,4 +593,21 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateHealth() => _healthBar?.SetHealth(CurrentHealth);
     private void UpdateUltimate() => _ultBar?.SetUlt(UltimateCharge);
+
+    private IEnumerator SpawnTrail(TrailRenderer Trail, RaycastHit hit)
+    {
+        float time = 0;
+        Vector3 startPosition = Trail.transform.position;
+
+        while (time < 1)
+        {
+            Trail.transform.position = Vector3.Lerp(startPosition, hit.point, time);
+            time += Time.deltaTime/ Trail.time;
+
+            yield return null;
+        }
+        Trail.transform.position = hit.point;
+
+        Destroy( Trail.gameObject, Trail.time );
+    }
 }

@@ -31,6 +31,12 @@ public class Grunt : Enemy
     [SerializeField]
     private bool _playerInSightRange, _playerInAttackRange;
 
+
+    [SerializeField]
+    private Animator _animator;
+
+    public GameObject Beebop;
+
     private void Awake()
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>().NormalPlayer.transform;
@@ -44,6 +50,8 @@ public class Grunt : Enemy
     {
         base.Update();
 
+        Debug.DrawRay(_UpsideEnemy.transform.position, _UpsideEnemy.transform.forward * 5.0f, Color.red);
+
         // Check for sight and attack range
         _playerInSightRange = Physics.CheckSphere(_UpsideEnemy.transform.position, _sightRange, _whatIsPlayer);
         _playerInAttackRange = Physics.CheckSphere(_UpsideEnemy.transform.position, _attackRange, _whatIsPlayer);
@@ -55,6 +63,7 @@ public class Grunt : Enemy
 
     private void Patroling()
     {
+        _animator.SetBool("Chasing", true);
         if (!_walkPointSet) SearchWalkPoint();
 
         if (_walkPointSet)
@@ -83,6 +92,7 @@ public class Grunt : Enemy
 
     private void AttackPlayer()
     {
+        _animator.SetBool("Chasing", false);
         _navMeshAgent.SetDestination(_UpsideEnemy.transform.position);
 
         _UpsideEnemy.transform.LookAt(_player);
@@ -90,7 +100,16 @@ public class Grunt : Enemy
         if (!_alreadyAttacked)
         {
             // Attack code here
-
+            // Raycast forward
+            if (Physics.Raycast(_UpsideEnemy.transform.position, _UpsideEnemy.transform.forward, out RaycastHit hit, 5.0f, _whatIsPlayer))
+            {
+                if (hit.collider.GetComponent<PlayerController>()
+                    || hit.collider.transform.parent.GetComponent<PlayerController>())
+                {
+                    hit.collider.GetComponent<PlayerController>()?.TakeDamage(_enemyData.Damage);
+                    hit.collider.transform.parent.GetComponent<PlayerController>()?.TakeDamage(_enemyData.Damage);
+                }
+            }
 
             _alreadyAttacked = true;
             Invoke(nameof(ResetAttack), _timeBetweenAttacks);

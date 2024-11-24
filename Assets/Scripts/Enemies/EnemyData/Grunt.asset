@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Grunt
   m_EditorClassIdentifier: 
   Health: 100
+  Damage: 2
   Speed: 5
   AttackCooldown: 0.5
   AttackRange: 1
