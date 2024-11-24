@@ -39,9 +39,14 @@ public class Shooter : Enemy
     [SerializeField]
     private GameObject _bulletPrefab;
 
+    public AudioSource audioSource;
+    public AudioClip beep1;
+    public AudioClip shoot1;
+
     private void Awake()
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>().NormalPlayer.transform;
+        audioSource = GetComponent<AudioSource>();
 
         _navMeshAgent.speed = _enemyData.Speed;
         _timeBetweenAttacks = _enemyData.AttackCooldown;
@@ -89,6 +94,8 @@ public class Shooter : Enemy
 
     private void ChasePlayer()
     {
+        audioSource.clip = beep1;
+        audioSource.Play();
         _navMeshAgent.SetDestination(_player.position);
     }
 
@@ -100,7 +107,8 @@ public class Shooter : Enemy
 
         if (!_alreadyAttacked)
         {
-
+            audioSource.clip = shoot1;
+            audioSource.Play();
             // Attack code here
             float distance = Vector3.Distance(_player.position, _UpsideEnemy.transform.position);
             Vector3 shootLocation = _player.position + new Vector3(
