@@ -110,7 +110,7 @@ public class Shooter : Enemy
             );
 
             Debug.DrawRay(_UpsideEnemy.transform.position, shootLocation - _UpsideEnemy.transform.position, Color.red, 1.0f);
-            Debug.DrawRay(_muzzlePoint.transform.position, shootLocation - _muzzlePoint.transform.position, Color.yellow, 1.0f);
+            Debug.DrawRay(_muzzlePoint.position, shootLocation - _muzzlePoint.position, Color.yellow, 1.0f);
 
             Quaternion shootDirection = Quaternion.LookRotation(shootLocation - _muzzlePoint.position);
             Instantiate(_bulletPrefab, _muzzlePoint.position, shootDirection);
