@@ -76,10 +76,10 @@ public class NoiseMaker : MonoBehaviour
     }
 
 
-    [MenuItem("Create/3D Texture")]
-    static void CreateTexture3D()
-    {
-        // Save the texture to your Unity Project
-        AssetDatabase.CreateAsset(texture, "Assets/3DTexture.asset");
-    }
+    // [MenuItem("Create/3D Texture")]
+    // static void CreateTexture3D()
+    // {
+    //     // Save the texture to your Unity Project
+    //     AssetDatabase.CreateAsset(texture, "Assets/3DTexture.asset");
+    // }
 }

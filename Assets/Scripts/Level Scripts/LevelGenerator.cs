@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEditor;
-using UnityEditor.AI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -190,8 +189,6 @@ public class LevelGenerator : MonoBehaviour
                 pointsArray[roomsPath[i].X, roomsPath[i].Y].entranceDoorDirection
             );
         }
-
-        NavMeshBuilder.BuildNavMesh();
     }
 
     int GetExitDoorDirection(PcgPoints currentPoint, PcgPoints randomNeighbour)

@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private float rotationY = 0.0f;
 
     private readonly float _mouseSensitivity = 0.05f;
-    private readonly float _lookSensitivity = 5.0f;
+    private readonly float _lookSensitivity = 3.0f;
 
     // Motion
     private Rigidbody _rb;
@@ -468,13 +468,8 @@ public class PlayerController : MonoBehaviour
     public void OnSwitch(InputAction.CallbackContext context)
     {
 
-        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded && UltimateCharge == _maxUltimateCharge)
+        if (context.phase == InputActionPhase.Started && !_isSwitching && _isGrounded)
             StartCoroutine(StartSwitchAnimation());
-        else if (context.phase == InputActionPhase.Started)
-        {
-            // Switch anim if not ready
-
-        }
     }
 
     public void OnReload(InputAction.CallbackContext context)
