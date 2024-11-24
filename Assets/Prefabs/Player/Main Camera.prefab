@@ -1556,6 +1556,7 @@ MonoBehaviour:
   FireMainwep: {fileID: 8300000, guid: 352af36a60469ad4986c883dffadaf42, type: 3}
   landed: {fileID: 8300000, guid: 8e1b9186902fdbe419e9d94357e4a2e2, type: 3}
   punch: {fileID: 8300000, guid: b30615c4cefcad64abd41a364040d37e, type: 3}
+  death: {fileID: 8300000, guid: 1bc29832e090c7342839dfb628733cbc, type: 3}
 --- !u!1 &7495255821686330767
 GameObject:
   m_ObjectHideFlags: 0

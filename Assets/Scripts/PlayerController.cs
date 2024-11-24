@@ -370,8 +370,10 @@ public class PlayerController : MonoBehaviour
 
                     if (enemyHealthRemaining <= 0.0f)
                     {
+                        
                         UltimateCharge = Mathf.Clamp(UltimateCharge + 1, 0, _maxUltimateCharge);
                         UpdateUltimate();
+                        _audioController.Kill();
                     }
                 }
             }

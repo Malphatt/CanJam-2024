@@ -224,6 +224,9 @@ MonoBehaviour:
   _playerInAttackRange: 0
   _muzzlePoint: {fileID: 0}
   _bulletPrefab: {fileID: 0}
+  audioSource: {fileID: 0}
+  beep1: {fileID: 8300000, guid: 3e1ba2a1397b22643b65a513a75f8fb4, type: 3}
+  shoot1: {fileID: 8300000, guid: 020ce8c122918f744a516a0f0580b942, type: 3}
 --- !u!1 &7751460374495578236
 GameObject:
   m_ObjectHideFlags: 0
