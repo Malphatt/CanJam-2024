@@ -10,6 +10,7 @@ public class AudioController : MonoBehaviour
     public AudioClip backgroundMusic;
     public AudioClip flip;
     public AudioClip FireMainwep;
+    public AudioClip landed;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,5 +35,12 @@ public class AudioController : MonoBehaviour
         audioSource.clip = FireMainwep;
         audioSource.Play();
         
+    }
+
+    public void Landed()
+    {
+        audioSource.clip = landed;
+        audioSource.Play();
+
     }
 }

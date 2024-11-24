@@ -104,6 +104,7 @@ public class PlayerController : MonoBehaviour
     private bool _mirror = false;
 
     [SerializeField] private AudioController _audioController;
+    [SerializeField] private BackgroundMusic _backgroundMusic;
     //Particle effects
     //GameObject smoke;
     //GameObject Light;
@@ -171,8 +172,13 @@ public class PlayerController : MonoBehaviour
         else
             _rb.velocity += Vector3.up * _gravity * Time.deltaTime;
 
-        _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.1f, _groundLayer);
+        bool wasGrounded = _isGrounded; 
+        _isGrounded = Physics.Raycast(NormalPlayer.transform.position, Vector3.down, 1.5f, _groundLayer);
 
+        if (!wasGrounded && _isGrounded)
+        {
+            _audioController.Landed();
+        }
         // Sprint
         if (_isSprinting && _moveDirection.z > 0.5f)
             _targetVelocity = _sprintSpeed;
@@ -445,10 +451,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator StartSwitchAnimation()
     {
         _audioController.FlipToMirror();
-
+        _backgroundMusic.MainMusic();
         _animator.SetBool("Swap", _switchState == 1);
         _animator2.SetBool("Flipped", _switchState == 1);
-
         _isSwitching = true;
 
         float offset = 0.0f;
