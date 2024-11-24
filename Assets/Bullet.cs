@@ -9,11 +9,11 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     private float _bulletLifeTime = 2f;
     [SerializeField]
-    private float _bulletDamage = 2.0f;
-    [SerializeField]
     private float _killRange = 0.75f;
     [SerializeField]
     private LayerMask _whatIsPlayer;
+
+    [SerializeField] private EnemyData _enemyData;
 
     private GameObject _player;
 
@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
         // Check if the bullet position is within an acceptable range of the player
         if (Physics.CheckSphere(transform.position, _killRange, _whatIsPlayer))
         {
-            _player.GetComponent<PlayerController>().TakeDamage(_bulletDamage);
+            _player.GetComponent<PlayerController>().TakeDamage(_enemyData.Damage);
             Destroy(gameObject);
         }
     }
